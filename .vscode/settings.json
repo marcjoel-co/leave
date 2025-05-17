@@ -1,0 +1,7 @@
+{
+    "extensions.supportVirtualWorkspaces": {
+        "ms-vscode.cpptools": true,
+        "formulahendry.code-runner": true,
+        "vscjava.vscode-java-pack": true
+    }
+}
