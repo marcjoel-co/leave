@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.leave.engine</groupId>
     <artifactId>leave</artifactId>
-    <version>17.6</version>
+    <version>17</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,6 +28,12 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>linux</classifier>
         </dependency>
 
         <!-- Jackass Dependency -->
@@ -69,7 +75,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version> <!-- Updated version -->
                 <configuration>
-                    <release>11</release>
+                    <release>17</release>
+                    <compilerArgs>
+                        <arg>--add-modules</arg>
+                        <arg>javafx.controls,javafx.fxml</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
@@ -84,6 +94,10 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>com.leave.engine/com.leave.engine.App</mainClass> <!-- Module/MainClass -->
+                            <options>
+                                <option>-Djava.awt.headless=true</option>
+                                <option>-Dprism.order=sw</option>
+                            </options>
                         </configuration>
                     </execution>
                 </executions>
