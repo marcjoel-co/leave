@@ -1,10 +1,17 @@
 package com.leave.engine;
 
-// ... other imports ...
-import static com.leave.engine.utils.AnimationUtils.*; // Your existing static import
+
+import java.io.IOException; 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import static com.leave.engine.utils.AnimationUtils.createBlinkTimeline;
+import static com.leave.engine.utils.AnimationUtils.createFadeTransition;
+import static com.leave.engine.utils.AnimationUtils.createPauseTransition;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.PauseTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
@@ -12,18 +19,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.Label; // Make sure this is imported
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-
-import java.io.IOException; // Make sure this is imported
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 
 public class MainMenuController {
@@ -42,40 +43,41 @@ public class MainMenuController {
     private List<String> characterNames;
     private int currentCharIndex = 0;
     private boolean isAnimating = false;
-    private List<Node> contentNodesToAnimateExcludingSpotlight;
+    private List<Node> contentNodewoSpotlight;
 
     @FXML
-    public void initialize() {
-        characterImageFiles = new ArrayList<>(Arrays.asList(
-                "images/characters/character1.png", "images/characters/character2.png",
-                "images/characters/character3.png", "images/characters/character4.png",
-                "images/characters/character5.png"
+    public void initialize()
+     {
+        List<String> characterImageFiles = new ArrayList<>(Arrays.asList(
+        "images/characters/character1.png", "images/characters/character2.png",
+        "images/characters/character3.png", "images/characters/character4.png",
+        "images/characters/character5.png", "images/characters/character5.png" 
         ));
 
+        List<String> characterNames = new ArrayList<>(Arrays.asList(
+            "Pocholo", "Eijel", "MARC",
+            "Hera", "Denver", "Louise (sir)"
+            
+        ));
         if (newGameButton == null) {
             System.err.println("CRITICAL: newGameButton is NULL in initialize()!");
         } else {
             System.out.println("SUCCESS: newGameButton was injected. Current disabled state: " + newGameButton.isDisabled());
         }
         characterNames = new ArrayList<>(Arrays.asList(
-                "Lynx", "Shadow", "Aurora",
-                "Gale", "Terra" // Example names
+                "Pocholo", "Eijel", "MARC",
+                "Hera", "Denver", "Louise (sir)"
         ));
 
-        contentNodesToAnimateExcludingSpotlight = new ArrayList<>();
-        if (menuButtonBox != null) contentNodesToAnimateExcludingSpotlight.add(menuButtonBox);
+        contentNodewoSpotlight = new ArrayList<>();
+        if (menuButtonBox != null) contentNodewoSpotlight.add(menuButtonBox);
         else System.err.println("MainMenuController: menuButtonBox is null.");
 
-        // Ensure centerContentVBox itself isn't null before trying to get children.
-        // For now, let's assume characterImageView and characterNameLabel are top-level for content to fade,
-        // rather than assuming they are children of centerContentVBox for this animation logic.
-        // You were adding centerContentVBox, not its children previously for the main fade.
-        // If you intended specific children of centerContentVBox, that logic would need adjusting.
-        // Sticking to your previous structure:
-        if (centerContentVBox != null) contentNodesToAnimateExcludingSpotlight.add(centerContentVBox);
+        
+        if (centerContentVBox != null) contentNodewoSpotlight.add(centerContentVBox);
         else System.err.println("MainMenuController: centerContentVBox is null for content list.");
 
-        if (tradeMarc != null) contentNodesToAnimateExcludingSpotlight.add(tradeMarc);
+        if (tradeMarc != null) contentNodewoSpotlight.add(tradeMarc);
         else System.err.println("MainMenuController: tradeMarc is null.");
 
 
@@ -105,7 +107,7 @@ public class MainMenuController {
                 if (charImage != null && charImage.getException() != null) {
                     charImage.getException().printStackTrace();
                 }
-                characterImageView.setImage(null); // Clear image on error
+                characterImageView.setImage(null); 
             } else {
                 characterImageView.setImage(charImage);
             }
@@ -119,8 +121,8 @@ public class MainMenuController {
 
         if (isInitialLoad) {
             // Set initial opacities
-            if (contentNodesToAnimateExcludingSpotlight != null) {
-                for (Node node : contentNodesToAnimateExcludingSpotlight) {
+            if (contentNodewoSpotlight != null) {
+                for (Node node : contentNodewoSpotlight) {
                     if (node != null) node.setOpacity(1.0);
                 }
             }
@@ -144,9 +146,9 @@ public class MainMenuController {
         boolean essentialNodesMissing = backgroundSpotlightCircle == null ||
                                    characterImageView == null ||
                                    characterNameLabel == null ||
-                                   contentNodesToAnimateExcludingSpotlight == null ||
-                                   contentNodesToAnimateExcludingSpotlight.stream().anyMatch(Objects::isNull) ||
-                                   contentNodesToAnimateExcludingSpotlight.isEmpty();
+                                   contentNodewoSpotlight == null ||
+                                   contentNodewoSpotlight.stream().anyMatch(Objects::isNull) ||
+                                   contentNodewoSpotlight.isEmpty();
 
 
         if (essentialNodesMissing) {
@@ -164,10 +166,10 @@ public class MainMenuController {
         Duration contentFadeDuration = Duration.millis(250);
         Duration blinkSegmentDuration = Duration.millis(100);
 
-        // --- FADE OUT SEQUENCE ---
+       
         FadeTransition spotlightFadeOut = createFadeTransition(backgroundSpotlightCircle, fadeDuration, backgroundSpotlightCircle.getOpacity(), 0.0);
         ParallelTransition otherContentFadeOut = new ParallelTransition();
-        for (Node node : contentNodesToAnimateExcludingSpotlight) {
+        for (Node node : contentNodewoSpotlight) {
              // Make sure the node itself is not null before creating transition
             if (node != null) {
                 otherContentFadeOut.getChildren().add(
@@ -200,11 +202,11 @@ public class MainMenuController {
             if(characterNameLabel != null) characterNameLabel.setOpacity(0.0);
             loadCharacterData(currentCharIndex, false); // Load new data, don't set initial opacity here
 
-            // --- FADE IN / BLINK IN SEQUENCE ---
+        
             Duration mainPauseDuration = Duration.millis(150);
             Timeline spotlightBlinkIn = createBlinkTimeline(backgroundSpotlightCircle, blinkSegmentDuration, 1.0);
             ParallelTransition otherContentBlinkIn = new ParallelTransition();
-            for (Node node : contentNodesToAnimateExcludingSpotlight) {
+            for (Node node : contentNodewoSpotlight) {
                  if (node != null) {
                     otherContentBlinkIn.getChildren().add(
                         createBlinkTimeline(node, blinkSegmentDuration.add(Duration.millis(20)), 1.0)

@@ -8,49 +8,52 @@
     <?import javafx.scene.layout.BorderPane?>
     <?import javafx.scene.layout.StackPane?>
     <?import javafx.scene.layout.VBox?>
+    <?import javafx.scene.shape.Circle?>
     
-    <BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0"
-                xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1"
-                fx:controller="com.leave.engine.MainMenuController"
-                styleClass="main-menu-background"> <!-- For background image/color -->
     
-        <!-- LEFT: Menu Buttons -->
+    <BorderPane fx:id="backgroundDis" prefHeight="600.0" prefWidth="800.0" styleClass="main-menu-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leave.engine.MainMenuController">
+        
         <left>
-            <VBox fx:id="menuButtonBox" alignment="CENTER_LEFT" spacing="15.0" prefWidth="200.0">
+            <VBox fx:id="menuButtonBox" alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
                 <padding>
-                    <Insets top="50.0" right="20.0" bottom="20.0" left="50.0" />
+                    <Insets bottom="20.0" left="50.0" right="20.0" top="50.0" />
                 </padding>
                 <children>
-                    <Label text="GAME TITLE" styleClass="game-title-label"/> <!-- Optional Game Title -->
-                    <Button fx:id="newGameButton" text="New Game" onAction="#handleNewGame" styleClass="menu-button"/>
-                    <!-- <Button fx:id="loadGameButton" text="Load Game" onAction="#handleLoadGame" styleClass="menu-button"/>
-                    <!-- <Button fx:id="optionsButton" text="Options" onAction="#handleOptions" styleClass="menu-button"/>
-                    <Button fx:id="quitButton" text="Quit Game" onAction="#handleQuit" styleClass="menu-button"/>
+                    <ImageView fitHeight="73.0" fitWidth="200.0">
+                        <image>
+                            
+                            <Image url="@images/Intro.png" />
+                        </image>
+                    </ImageView>
+                    <Button fx:id="newGameButton" onAction="#handleNewGame" styleClass="menu-button" text="Start" />
+                    <Button fx:id="loadGameButton" onAction="#handleLoadGame" styleClass="menu-button" text="Quit" />
                 </children>
             </VBox>
         </left>
-    
-        <!-- CENTER: Character Display -->
+        
         <center>
-            <StackPane fx:id="characterDisplayPane" alignment="CENTER">
-                <!-- ImageView for the character -->
-                <ImageView fx:id="characterImageView" fitHeight="450" preserveRatio="true" />
-    
-                <!-- You could add other decorative elements here in the StackPane -->
-                <!-- e.g., a background element behind the character, particles, etc. -->
-                <!--
-                <ImageView>
-                    <image><Image url="@/images/decorations/ritual_circle.png"/></image>
-                </ImageView>
-                -->
-            </StackPane>
+            <VBox alignment="CENTER" spacing="20.0" fx:id="centerContentVBox">
+                <padding>
+                    <Insets top="40.0" bottom="20.0" left="20.0" right="20.0"/>
+                </padding>
+                <Label fx:id="characterNameLabel" text="You are playing as..." styleClass="character-name-label" />
+                
+                <StackPane fx:id="characterDisplayPane" alignment="CENTER" prefHeight="250.0" prefWidth="250.0">
+                    
+                    <Circle fx:id="backgroundSpotlightCircle" fill="White" radius="100.0" stroke="BLACK" strokeWidth="1.0" opacity="1.0"/>
+                    
+                    
+                    <ImageView fx:id="characterImageView" fitHeight="180.0" fitWidth="180.0" preserveRatio="true" />
+                </StackPane>
+                
+                <Button fx:id="characterChangeButton" text="Character" onAction="#handleCharacterChange" styleClass="menu-button"/>
+            </VBox>
         </center>
-    
-
+        
         <bottom>
             <Label fx:id="tradeMarc" text=" ver:3.00 sa Pre-Calculus" BorderPane.alignment="BOTTOM_RIGHT">
-                <padding><Insets bottom="10" right="10"/></padding>
+                <padding><Insets bottom="10" right="10" /></padding>
             </Label>
         </bottom>
-    
+        
     </BorderPane>

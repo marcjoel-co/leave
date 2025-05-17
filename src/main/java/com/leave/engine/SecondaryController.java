@@ -1,22 +1,21 @@
 package com.leave.engine;
 
-import com.leave.engine.utils.AnimationUtils;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
-import javafx.scene.input.MouseEvent;
-import javafx.animation.Timeline;
-
-import com.fasterxml.jackson.core.type.TypeReference; // Jackson import
-import com.fasterxml.jackson.databind.ObjectMapper;   // Jackson import
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leave.engine.utils.AnimationUtils;
+
+import javafx.animation.Timeline; // Jackson import
+import javafx.event.ActionEvent;   // Jackson import
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 public class SecondaryController {
 
@@ -56,6 +55,8 @@ public class SecondaryController {
             //     return;
             // }
             Map<String, List<String>> allDialogues = objectMapper.readValue(is, new TypeReference<>() {});
+
+            // test out if the JSON FILE DOES REALLY EXIST
             dialogueLines = allDialogues.getOrDefault(dialogueKey, List.of("Error: Dialogue key '" + dialogueKey + "' not found."));
             if (dialogueLines.isEmpty() || (dialogueLines.size() == 1 && dialogueLines.get(0).startsWith("Error:"))) {
                  System.err.println("Dialogue for key '" + dialogueKey + "' is missing or empty in JSON.");
@@ -102,14 +103,15 @@ public class SecondaryController {
                     // TODO: Determine next action: load different dialogue, go to game, etc.
                     System.out.println("End of dialogue sequence reached. Implement next step.");
                     // Example: Go back to menu, or load another set of dialogues
-                    // loadDialogue("exampleScene2");
-                    // showNextDialogueLine();
-                    // OR
-                    try {
-                        App.setRoot("mainMenu");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    loadDialogue("exampleScene2");
+                    showNextDialogueLine();
+            
+            
+                    // try {
+                    //     App.setRoot("mainMenu");
+                    // } catch (IOException e) {
+                    //     e.printStackTrace();
+                    // }
                 });
             }
         }

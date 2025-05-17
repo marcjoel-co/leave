@@ -6,7 +6,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
-import javafx.scene.control.Label; // Added for text animation
+import javafx.scene.control.Label; 
 import javafx.util.Duration;
 
 public class AnimationUtils {

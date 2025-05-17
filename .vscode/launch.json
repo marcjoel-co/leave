@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MinimalTest",
+            "request": "launch",
+            "mainClass": "com.leave.engine/com.leave.engine.MinimalTest",
+            "projectName": "leave"
+        },
+        {
+            "type": "java",
             "name": "test",
             "request": "launch",
             "mainClass": "com.leave.engine/com.test",
