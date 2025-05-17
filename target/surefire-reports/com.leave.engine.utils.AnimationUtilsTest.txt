@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.leave.engine.utils.AnimationUtilsTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.179 s <<< FAILURE! -- in com.leave.engine.utils.AnimationUtilsTest
-com.leave.engine.utils.AnimationUtilsTest -- Time elapsed: 0.179 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.201 s <<< FAILURE! -- in com.leave.engine.utils.AnimationUtilsTest
+com.leave.engine.utils.AnimationUtilsTest -- Time elapsed: 0.201 s <<< ERROR!
 java.lang.UnsupportedOperationException: Unable to open DISPLAY
 	at javafx.graphics/com.sun.glass.ui.gtk.GtkApplication.lambda$new$6(GtkApplication.java:181)
 	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
