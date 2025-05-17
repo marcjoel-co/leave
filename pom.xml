@@ -8,8 +8,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <javafx.version>17.0.8</javafx.version> 
                                          
                                          
@@ -75,7 +75,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version> <!-- Updated version -->
                 <configuration>
-                    <release>11</release>
+                    <release>17</release>
                     <compilerArgs>
                         <arg>--add-modules</arg>
                         <arg>javafx.controls,javafx.fxml</arg>
