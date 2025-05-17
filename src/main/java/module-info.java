@@ -5,7 +5,7 @@ module com.leave.engine {
     // this is a requrement for this to compile, but i donno not quite sure java is weird 
     requires javafx.controls; 
     requires javafx.fxml;
-    requires javafx.graphics; 
+    requires transitive javafx.graphics; 
     requires javafx.base;
 
     requires com.fasterxml.jackson.core;    

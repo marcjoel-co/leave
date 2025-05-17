@@ -1,18 +1,11 @@
 -------------------------------------------------------------------------------
 Test set: com.leave.engine.utils.AnimationUtilsTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.201 s <<< FAILURE! -- in com.leave.engine.utils.AnimationUtilsTest
-com.leave.engine.utils.AnimationUtilsTest -- Time elapsed: 0.201 s <<< ERROR!
-java.lang.UnsupportedOperationException: Unable to open DISPLAY
-	at javafx.graphics/com.sun.glass.ui.gtk.GtkApplication.lambda$new$6(GtkApplication.java:181)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
-	at javafx.graphics/com.sun.glass.ui.gtk.GtkApplication.<init>(GtkApplication.java:179)
-	at javafx.graphics/com.sun.glass.ui.gtk.GtkPlatformFactory.createApplication(GtkPlatformFactory.java:41)
-	at javafx.graphics/com.sun.glass.ui.Application.run(Application.java:146)
-	at javafx.graphics/com.sun.javafx.tk.quantum.QuantumToolkit.startup(QuantumToolkit.java:291)
-	at javafx.graphics/com.sun.javafx.application.PlatformImpl.startup(PlatformImpl.java:293)
-	at javafx.graphics/javafx.application.Platform.startup(Platform.java:113)
-	at com.leave.engine@17/com.leave.engine.utils.AnimationUtilsTest.initJavaFX(AnimationUtilsTest.java:33)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.038 s <<< FAILURE! -- in com.leave.engine.utils.AnimationUtilsTest
+com.leave.engine.utils.AnimationUtilsTest -- Time elapsed: 0.038 s <<< ERROR!
+java.lang.UnsupportedOperationException: Unimplemented method 'isHeadless'
+	at com.leave.engine/com.leave.engine.utils.GraphicsEnvironment.isHeadless(GraphicsEnvironment.java:6)
+	at com.leave.engine/com.leave.engine.utils.AnimationUtilsTest.initJavaFX(AnimationUtilsTest.java:34)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
 

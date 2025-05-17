@@ -29,6 +29,15 @@ class AnimationUtilsTest {
         // However, repeated calls to startup() can cause issues.
         // A more robust solution for complex UI tests involves TestFX.
         // For now, let's assume tests might need the toolkit.
+
+        //compatability for headless environments
+        if (GraphicsEnvironment.isHeadless()) {
+            System.setProperty("testfx.robot", "glass");
+            System.setProperty("testfx.headless", "true");
+            System.setProperty("prism.order", "sw");
+            System.setProperty("java.awt.headless", "true");
+        }
+        
         try {
             Platform.startup(() -> {
                 // This runnable is executed once JavaFX toolkit is ready
