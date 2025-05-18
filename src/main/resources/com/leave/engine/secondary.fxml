@@ -24,8 +24,6 @@ alignment="CENTER" spacing="30" styleClass="root" stylesheets="@style.css">
         styleClass="dialogue-button"
         onAction="#handleNextDialogue"/>
 
-    <Button fx:id="backToMenuButton" text="Flee to Safety"
-        styleClass="dialogue-button" 
-        onAction="#handleBackToMenu"/>
+   
 
 </VBox>

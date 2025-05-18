@@ -1,6 +1,6 @@
 com/leave/engine/SecondaryController.class
+com/leave/engine/CharacterManager.class
 module-info.class
-com/leave/engine/DialogueController.class
 com/leave/engine/utils/SpriteSheetAnimator$1.class
 com/leave/engine/utils/AnimationUtils.class
 com/leave/engine/App.class

@@ -70,9 +70,9 @@ public class TitlePanel implements Initializable {
                     SPRITE_SHEET_PATH,
                     FRAME_IMAGE_WIDTH,    // 1108
                     FRAME_IMAGE_HEIGHT,   // 560
-                    NUM_COLS,             // 32 (SpriteSheetAnimator needs to know how many columns to expect in the image)
-                    TOTAL_FRAMES,         // 32 (How many frames to play from the sheet)
-                    FPS
+                    NUM_COLS,         
+                    TOTAL_FRAMES,     
+                    FPS,false
             );
 
             if (this.onAnimationFinishedCallback != null) {

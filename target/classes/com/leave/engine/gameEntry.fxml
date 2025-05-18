@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?> 
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.geometry.Insets?>
+
+
+    <StackPane fx:id="rootStackPane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" 
+               xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
+               fx:controller="com.leave.engine.MainMenuController">
+        
+               <ImageView fx:id="backgroundThunderImageView" fitWidth="1280.0" fitHeight="720.0" preserveRatio="false" opacity="0.0" />
+
+        <StackPane fx:id="titleGroup" alignment="CENTER"> 
+            <ImageView fx:id="logoAnimationImageView" fitHeight="560" fitWidth="1080" preserveRatio="true" />
+            <Label fx:id="pressKeyLabel" text="Press Any Key to Start" style="-fx-text-fill: grey; -fx-font-size: 20px; -fx-font-family: 'Le Mano';" visible="false" opacity="0"/>
+        </StackPane>
+    
+        
+        <BorderPane fx:id="mainMenuGroup" prefHeight="600.0" prefWidth="800.0" styleClass="main-menu-background" stylesheets="@style.css" 
+                    opacity="0.0" mouseTransparent="true">
+            
+            <left>
+                <VBox fx:id="menuButtonBox" alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" styleClass="sidebar"> <!-- Added styleClass -->
+                    <padding>
+                        <Insets bottom="20.0" left="50.0" right="20.0" top="50.0" />
+                    </padding>
+                    <children>
+                        <ImageView fitHeight="73.0" fitWidth="200.0" styleClass="sidebar-logo">
+                            <image>
+                                <Image url="@images/Intro.png" />
+                            </image>
+                        </ImageView>
+                        <Button fx:id="newGameButton" onAction="#handleNewGame" styleClass="menu-button" text="Start Game" />
+                        <Button fx:id="loadGameButton" onAction="#handleLoadGame" styleClass="menu-button" text="Quit Game" />
+                        
+                    </children>
+                </VBox>
+            </left>
+            
+            <center>
+                <VBox alignment="CENTER" spacing="20.0" fx:id="centerContentVBox">
+                    <padding>
+                        <Insets top="40.0" bottom="20.0" left="20.0" right="20.0"/>
+                    </padding>
+                    <Label fx:id="characterNameLabel" text="You are playing as..." styleClass="character-name-label" />
+                    
+                    <StackPane fx:id="characterDisplayPane" alignment="CENTER" prefHeight="250.0" prefWidth="250.0">
+                        <Circle fx:id="backgroundSpotlightCircle" radius="100.0" styleClass="spotlight-circle"/> <!-- Use CSS for fill -->
+                        <ImageView fx:id="characterImageView" fitHeight="180.0" fitWidth="180.0" preserveRatio="true" />
+                    </StackPane>
+                    
+                    <Button fx:id="characterChangeButton" text="Change Character" onAction="#handleCharacterChange" styleClass="menu-button"/>
+                </VBox>
+            </center>
+            
+            <bottom>
+                <Label fx:id="tradeMarc" text="ver:1.0.0 Alpha" styleClass="trademark-label" BorderPane.alignment="BOTTOM_RIGHT">
+                    <padding><Insets bottom="10" right="10" /></padding>
+                </Label>
+            </bottom>
+        </BorderPane>
+    </StackPane>

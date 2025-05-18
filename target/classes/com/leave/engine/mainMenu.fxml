@@ -26,7 +26,6 @@
                         </image>
                     </ImageView>
                     <Button fx:id="newGameButton" onAction="#handleNewGame" styleClass="menu-button" text="Start" />
-                    <Button fx:id="loadGameButton" onAction="#handleLoadGame" styleClass="menu-button" text="Quit" />
                 </children>
             </VBox>
         </left>

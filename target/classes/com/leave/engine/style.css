@@ -7,12 +7,22 @@
     -fx-text-fill: #A0A0A0; /* Muted text color for general labels */
 }
 
+.spotlight-circle {
+    -fx-fill: radial-gradient(
+        center 50% 50%,    
+        radius 100%,       
+        white 0%,         
+        transparent 100%   
+    );
+    -fx-stroke: transparent; 
+    /* -fx-stroke-width: 0; */
+}
 /* Specific style for the dialogue label */
 .dialogue-text-horror {
-    -fx-font-family: "Creepster"; /* <<< USE THE ACTUAL FONT FAMILY NAME HERE */
-    -fx-font-size: 26px;          /* Adjust size as needed */
-    -fx-text-fill: #C0C0C0;       /* Off-white, maybe slightly grey or blood-red tint */
-    /* -fx-text-fill: #8B0000; */ /* Example: DarkRed text fill */
+    -fx-font-family: "Creepster"; 
+    -fx-font-size: 26px;          
+    -fx-text-fill: #C0C0C0;      
+    
     -fx-background-color: rgba(10, 10, 10, 0.7); /* Dark, slightly transparent background */
     -fx-border-color: #300000;    /* Dark, ominous border */
     -fx-border-width: 1px;
@@ -22,11 +32,8 @@
 }
 
 
-/* --- Main Menu Specific Background --- */
-/* This class is applied to your BorderPane fx:id="backgroundDis" */
-/* It will override the .root -fx-background-color for that BorderPane. */
 .main-menu-background {
-    -fx-background-color: black; /* Explicitly black for the main menu area */
+    -fx-background-color: transparent; 
 }
 
 /* --- General Label Styling --- */
@@ -119,7 +126,7 @@
     -fx-background-color: #1A0000;
 }
 
-/* Ensure your .menu-button style is distinct if still used */
+
 .menu-button {
     -fx-pref-width: 180px;
     -fx-pref-height: 45px;
