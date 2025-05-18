@@ -31,12 +31,13 @@ class AnimationUtilsTest {
         // For now, let's assume tests might need the toolkit.
 
         //compatability for headless environments
-        if (GraphicsEnvironment.isHeadless()) {
+        /*if (GraphicsEnvironment.isHeadless()) {
             System.setProperty("testfx.robot", "glass");
             System.setProperty("testfx.headless", "true");
             System.setProperty("prism.order", "sw");
             System.setProperty("java.awt.headless", "true");
         }
+        */
         
         try {
             Platform.startup(() -> {
