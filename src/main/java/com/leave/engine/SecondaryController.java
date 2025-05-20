@@ -17,8 +17,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
+// A class to control dialogues and dialgue animations
 public class SecondaryController {
 
+    //Imported frames from SceneBuilder
     @FXML
     private Label dialogueLabel;
 
@@ -34,6 +36,7 @@ public class SecondaryController {
     private String currentFullText;
     private ObjectMapper objectMapper = new ObjectMapper(); // Jackson's parser
 
+    //
     @FXML
     public void initialize() {
         loadDialogue("introduction"); // Load the "introduction" lines by default

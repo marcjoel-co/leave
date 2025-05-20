@@ -33,6 +33,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
+/*
+ * this is the main menu itself where the title game, character selection
+ * is shown and displayed
+ */
+
 public class MainMenuController implements Initializable {
 
     //--- FXML Injections: UI Elements from gameEntry.fxml ---
@@ -80,10 +85,15 @@ public class MainMenuController implements Initializable {
     private boolean isCharacterAnimating = false;
     // No longer using contentNodewoSpotlight as we explicitly target containers or individual elements in handleCharacterChange
 
+    /*
+     * the method for the initializing components of the main menu scene
+     * and also the execution or display of graphic interfaces
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("MainMenuController initialize START");
 
+        //conditional statements for critial initialization errors
         if (mainMenuGroup == null || titleGroup == null || rootStackPane == null) {
             System.err.println("CRITICAL: Essential layout panes (mainMenuGroup, titleGroup, rootStackPane) are NULL. FXML linking issue?");
             return;
@@ -94,15 +104,18 @@ public class MainMenuController implements Initializable {
             System.out.println("SUCCESS: backgroundSpotlightCircle was injected.");
         }
 
+        //Inialized and played animations
         setupAndPlayThunderAnimation();
         setupAndPlayLogoAnimation();
 
+        //Main menu display values
         mainMenuGroup.setOpacity(0.0);
         mainMenuGroup.setMouseTransparent(true);
         titleGroup.setOpacity(1.0);
         titleGroup.setMouseTransparent(false);
     }
 
+    //initializes and plays thunder animation
     private void setupAndPlayThunderAnimation() {
         if (backgroundThunderImageView != null) {
             try {

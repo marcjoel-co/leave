@@ -11,6 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font; 
 import javafx.stage.Stage;
 
+/**
+ * This is app.java application, its main goal is to make all components communicate to this entry 
+ * entry point   
+ * 
+ */
+
 public class App extends Application {
 
     private static Scene primaryScene;

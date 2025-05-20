@@ -1,13 +1,20 @@
 package com.leave.engine;
-
 import java.util.List;
 
-
+//a class in managing character loading
 public class CharacterManager {
+
+    /*
+     * private variables in storing image files, character name
+     * and the index of each character
+     */
     private final List<String> imageFiles; 
     private final List<String> characterNames;
     private int currentIndex = 0;
 
+    /*
+     * Manages the list of characters if they are existing or not
+     */
     public CharacterManager(List<String> imageFilePaths, List<String> names) { 
         if (imageFilePaths == null || names == null || imageFilePaths.isEmpty() || names.isEmpty() || imageFilePaths.size() != names.size()) {
             throw new IllegalArgumentException(
@@ -21,11 +28,13 @@ public class CharacterManager {
         this.characterNames = List.copyOf(names);
     }
 
+    //A method to switch through the next character
     public void nextCharacter() {
         if (imageFiles.isEmpty()) return; // Should not happen if constructor validation works
         currentIndex = (currentIndex + 1) % imageFiles.size();
     }
 
+    //A method for switching to the previous character
     public void previousCharacter() { // Added for completeness, might be useful later
         if (imageFiles.isEmpty()) return;
         currentIndex = (currentIndex - 1 + imageFiles.size()) % imageFiles.size();
@@ -37,15 +46,19 @@ public class CharacterManager {
         return imageFiles.get(currentIndex);
     }
 
+
+    //Gets the name of the current character
     public String getCurrentName() {
         if (characterNames.isEmpty()) return null; // Consistency check
         return characterNames.get(currentIndex);
     }
 
+    //gets returns the next frame to display
     public int getCurrentIndex() { // Keep one method for getting the index
         return currentIndex;
     }
 
+    //A pause method to stay on said frame
     public void setCurrentIndex(int index) {
         if (index >= 0 && index < imageFiles.size()) {
             this.currentIndex = index;
@@ -55,7 +68,7 @@ public class CharacterManager {
         }
     }
 
-    
+    //gets the number of characters
     public int getCharacterCount() {
         return imageFiles.size();
     }
