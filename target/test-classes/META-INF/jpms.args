@@ -1,0 +1,6 @@
+--add-modules
+javafx.controls,javafx.fxml
+--patch-module
+com.leave.engine=_
+--add-reads
+com.leave.engine=ALL-UNNAMED
