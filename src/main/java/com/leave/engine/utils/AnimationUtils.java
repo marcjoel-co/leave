@@ -1,4 +1,4 @@
-package com.leave.engine.utils; // Corrected: Only one package declaration
+package com.leave.engine.utils; 
 
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;

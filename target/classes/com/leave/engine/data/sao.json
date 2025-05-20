@@ -1,18 +1,114 @@
 {
-  "introduction": [
-    "*yawn*",
-    "its 11 pm already..",
-    "you get up to get ready for your night shift work at a local convenient store",
-    " you take a shower ",
-    " brush your teeth eat your dinner and say goodbye to your family",
-    "and your dog you have had since you were 12.",
-    "As a fresh grad 23 year old, you always knew that it was going to be hard finding a job.",
-    " However, you never expected it to be so hard that you had to stay working at a convenient ",
-    "store for almost a year trying while also trying to find a stable job.",
-    "This does not stop you though, you know to yourself you’ll get through this. "
-  ],
-  
-  "exampleScene2": [
-    "This is another set of dialogue lines."
-  ]
+  "gameTitle": "The Night Shift",
+  "startScene": "intro_1",
+  "playerNamePlaceholder": "{playerName}",
+  "scenes": {
+    "intro_1": {
+      "text": "*Yawn* “11 pm already..” you get up to get ready for your night shift work at a local convenient store. You take a shower, brush your teeth eat your dinner and say goodbye to your family and your dog you have had since you were 12. As a fresh grad 23 year old, you always knew that it was going to be hard finding a job. However, you never expected it to be so hard that you had to stay working at a convenient store for almost a year trying while also trying to find a stable job. This does not stop you though, you know to yourself you’ll get through this.",
+      "autoTransitionTo": "intro_2"
+    },
+    "intro_2": {
+      "text": "As you reflect about life, you didn’t notice that you’ve reach the convenient store. You are greeted with by your co-worker at the cashier restocking shelves and the security guard sitting by the door playing his game to pass the time. “Hey {playerName}, have you seen Shelby anywhere?” your co-worker asks you. “No, why?” you answer. “Did you not work with her during the night shift last night?” he asks. “No, it was my day-off, why what happened?” you answer. “Apparently she didn’t go home and the parents are worried sick. I hope she’s okay tho, she’s only 26 ” he says. You brush it off as just one of those “run-away rebels” young adult normally do when they have freedom and money.",
+      "autoTransitionTo": "store_encounter_1"
+    },
+    "store_encounter_1": {
+      "text": "Time passes and you’ve encountered many customers, just another normal boring night. *Door opens*. You look to see a man in a full business attire and a eerie mask. However, you greet the man with a smile as he just stares at you then leaves. “What was that all about” you ask the guard. “Don’t worry {playerName}. He’s been coming very often, don’t be scared though I’m here to protect you”. “Thanks” you say. “Welp I’m gonna go smoke, I’ll be right back”. “Hey uhm {playerName}, can you do me a favor?” your co-worker asks. “What is it?” You ask. “Can you cover for me for an hour? My head is killing me” he asks. “Sure, go rest” you say.",
+      "autoTransitionTo": "store_encounter_2"
+    },
+    "store_encounter_2": {
+      "text": "Time goes by and it’s now 3 am. *Ding* as the door opened, it was the same guy with the mask. He’s staring at you again, not moving an inch. “Good morning sir, how may I help you” you muttered frozen still and scared. You look around to see where the guard is and he is no where to be seen. *Spray* he sprays something in your face as you pass out almost immediately.",
+      "autoTransitionTo": "wake_up"
+    },
+    "wake_up": {
+      "text": "You wake up in a dark room made of bricks that felt like the 1800s. “*Groan* my head hurts”.",
+      "choices": [
+        { "text": "Scream for help", "nextSceneId": "scream_result" },
+        { "text": "Stay quiet and listen", "nextSceneId": "stay_quiet_1" }
+      ]
+    },
+    "scream_result": {
+      "text": "The killer heard you and killed you.",
+      "outcome": "YOU_DIED_SCREAM"
+    },
+    "stay_quiet_1": {
+      "text": "You stay quiet, listening for any noises that could help. As your eyes adjust in the dark you see the door. You open the door slowly and you see a brick hallway lit by lanterns. You keep walking trying to find the way out until you saw a guy.",
+      "choices": [
+        { "text": "Ask the guy for help", "nextSceneId": "ask_guy_help" },
+        { "text": "Ignore the guy and keep moving", "nextSceneId": "ignore_guy_1" }
+      ]
+    },
+    "ask_guy_help": {
+      "text": "You approach the guy. You see his uniform... *gasp* he’s part of the killers! But then he shushes you and quickly leads you to an exit. LUCKY! He was an imposter helping victims escape.",
+      "outcome": "ESCAPED_IMPOSTER_HELP"
+    },
+    "ignore_guy_1": {
+      "text": "You decide to ignore the guy and move forward to a different hallway where you see two items on a dusty table.",
+      "choices": [
+        { "text": "Take the shovel", "nextSceneId": "take_shovel" },
+        { "text": "Take the key", "nextSceneId": "take_key" }
+      ]
+    },
+    "take_key": {
+      "text": "You pocket the old, rusty key and keep moving. Suddenly, you see a disfigured monster lumbering towards you. Without any protection, it chases you down a corridor! You frantically try the key on a nearby door. It unlocks! You rush in, slamming it shut, only to find a gigantic spider a-la Shelob descending from the ceiling. It jumps on your face and eats you.",
+      "outcome": "YOU_DIED_SPIDER"
+    },
+    "take_shovel": {
+      "text": "You pick up the sturdy shovel. It feels heavy but reassuring. You keep moving until you see a disfigured monster blocking your path. You bash the monster’s head with the shovel with all your might! It collapses, bleeding profusely. You keep going forward and you see a door that looks like an exit. It feels suspicious...",
+      "choices": [
+        { "text": "Try to open the exit door", "nextSceneId": "open_exit_door" },
+        { "text": "Ignore the door and keep searching", "nextSceneId": "ignore_exit_door" }
+      ]
+    },
+    "open_exit_door": {
+      "text": "You try the handle. It's locked! You need a key. Frustrated, you start searching the nearby area again. You find three doors, distinguished by color: red, blue, and yellow.",
+      "choices": [
+        { "text": "Enter the red door", "nextSceneId": "red_door" },
+        { "text": "Enter the blue door", "nextSceneId": "blue_door" },
+        { "text": "Enter the yellow door", "nextSceneId": "yellow_door" }
+      ]
+    },
+    "red_door": {
+      "text": "You open the red door and step through, only to find the floor missing. You fall into a 10-foot drop and land in a pit of fire, burning to death.",
+      "outcome": "YOU_DIED_FIRE_PIT"
+    },
+    "yellow_door": {
+      "text": "You open the yellow door and see sunlight! You start running towards it, hope surging in your chest. Suddenly, you feel a sharp pain in your back as a knife is plunged into you. You die just meters from freedom.",
+      "outcome": "YOU_DIED_KNIFE_BACK"
+    },
+    "blue_door": {
+      "text": "You cautiously open the blue door. Inside, on a small table, you find a key! This must be it. You take it back to the suspicious exit door, it fits, and you easily escape!",
+      "outcome": "ESCAPED_WITH_KEY"
+    },
+    "ignore_exit_door": {
+      "text": "You decide the door is too risky and keep on searching for another way out. You see an old lady also looking lost and trying to find her way out.",
+      "choices": [
+        { "text": "Help the old lady", "nextSceneId": "help_old_lady" },
+        { "text": "Ignore her, she might be a trap", "nextSceneId": "ignore_old_lady" }
+      ]
+    },
+    "help_old_lady": {
+      "text": "You approach the old lady to offer help. As you get closer, she smiles, but her eyes are cold. She was part of the killers and swiftly kills you.",
+      "outcome": "YOU_DIED_OLD_LADY"
+    },
+    "ignore_old_lady": {
+      "text": "You decide not to risk it and move past the old lady. The corridors seem endless. You eventually lose hope and suddenly faint from exhaustion and despair.",
+      "outcome": "YOU_DIED_DESPAIR"
+    },
+    "outro_escaped": {
+        "text": "The police start an investigation based on your testimony and find out that it was an underground business where they sold organs and human parts. You went home safe and well, relieved you survived."
+    },
+    "outro_died": {
+        "text": "Your poor body was sold in the black market by the killers as their business kept on running. You may not have been given justice, but maybe soon…"
+    }
+  },
+  "outcomes": {
+    "YOU_DIED_SCREAM": { "message": "Your screams attracted unwanted attention. You died.", "nextSceneId": "outro_died"},
+    "ESCAPED_IMPOSTER_HELP": { "message": "Trusting the strange 'killer' paid off! You escaped!", "nextSceneId": "outro_escaped"},
+    "YOU_DIED_SPIDER": { "message": "That key led to a bigger problem. You died.", "nextSceneId": "outro_died"},
+    "ESCAPED_WITH_KEY": { "message": "The blue door held the true key to freedom! You escaped!", "nextSceneId": "outro_escaped"},
+    "YOU_DIED_FIRE_PIT": { "message": "The red door was a fiery trap. You died.", "nextSceneId": "outro_died"},
+    "YOU_DIED_KNIFE_BACK": { "message": "So close, yet so far... That sunlight was a lie. You died.", "nextSceneId": "outro_died"},
+    "YOU_DIED_OLD_LADY": { "message": "Never trust a sweet old lady in a murder basement. You died.", "nextSceneId": "outro_died"},
+    "YOU_DIED_DESPAIR": { "message": "You gave up hope and succumbed to the darkness. You died.", "nextSceneId": "outro_died"}
+  }
 }

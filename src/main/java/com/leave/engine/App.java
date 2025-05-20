@@ -8,7 +8,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Font; // Import for Font
+import javafx.scene.text.Font; 
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -19,7 +19,7 @@ public class App extends Application {
     private static Stage appPrimaryStage;
 
     @Override
-    public void start(Stage stage) throws IOException { // No need to re-declare throws IOException if loadInitialView handles it
+    public void start(Stage stage) throws IOException {
         appPrimaryStage = stage;
         appPrimaryStage.setTitle("Leave!");
         appPrimaryStage.setFullScreen(true);
@@ -28,7 +28,7 @@ public class App extends Application {
         System.out.println("Application starting...");
 
         loadCustomFonts();
-        loadInitialView(); // This method now handles its own potential IOExceptions
+        loadInitialView(); 
 
         appPrimaryStage.show();
         System.out.println("Primary stage shown.");

@@ -1,14 +1,14 @@
 package com.leave.engine;
 
 import java.util.List;
-// No need for java.io.IOException or javafx.* imports here (unless you move image loading later)
+
 
 public class CharacterManager {
-    private final List<String> imageFiles; // Renamed from 'characters' for clarity
+    private final List<String> imageFiles; 
     private final List<String> characterNames;
     private int currentIndex = 0;
 
-    public CharacterManager(List<String> imageFilePaths, List<String> names) { // Parameter name changed
+    public CharacterManager(List<String> imageFilePaths, List<String> names) { 
         if (imageFilePaths == null || names == null || imageFilePaths.isEmpty() || names.isEmpty() || imageFilePaths.size() != names.size()) {
             throw new IllegalArgumentException(
                 "Character data lists cannot be null/empty and must have the same size. " +

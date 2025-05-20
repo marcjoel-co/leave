@@ -297,13 +297,10 @@ public class MainMenuController implements Initializable {
         characterNameLabel.setText("You are playing as " + charName);
 
         if (isInitialLoad) {
-            // Note: contentNodewoSpotlight is no longer used.
-            // Explicitly set opacities for main menu elements that are part of mainMenuGroup
             if (menuButtonBox != null) menuButtonBox.setOpacity(1.0);
-            if (centerContentVBox != null) centerContentVBox.setOpacity(1.0); // Contains char img, name, button, spotlight
+            if (centerContentVBox != null) centerContentVBox.setOpacity(1.0); 
             if (tradeMarc != null) tradeMarc.setOpacity(1.0);
-            // The children of centerContentVBox (char image, name, spotlight) will inherit opacity.
-            // However, ensure their individual opacities are also set if needed.
+            
             if (backgroundSpotlightCircle != null) backgroundSpotlightCircle.setOpacity(1.0);
             if (characterImageView != null) characterImageView.setOpacity(1.0);
             if (characterNameLabel != null) characterNameLabel.setOpacity(1.0);
@@ -353,12 +350,10 @@ public class MainMenuController implements Initializable {
         fullFadeOutToBlack.setOnFinished(fadeOutEvent -> {
             characterManager.nextCharacter();
             
-            // Reset opacities explicitly for elements that blink/fade IN
-            // These should have been faded out by centerContentVBox's fade, but being explicit helps
             if(characterImageView != null) characterImageView.setOpacity(0.0);
             if(characterNameLabel != null) { characterNameLabel.setOpacity(0.0); characterNameLabel.setText(""); }
             if(backgroundSpotlightCircle != null) backgroundSpotlightCircle.setOpacity(0.0);
-            // menuButtonBox, centerContentVBox, tradeMarc, backgroundThunderImageView are already 0 opacity.
+            
 
             loadCurrentCharacterDisplay(false); // Loads new data into (currently opacity 0) views
 
