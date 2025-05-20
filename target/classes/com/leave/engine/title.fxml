@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+    <?import javafx.scene.layout.StackPane?>
+    
+    <!-- This StackPane will be black. The ImageView will be placed within it. -->
+    <StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+               fx:controller="com.leave.engine.TitlePanel"
+               style="-fx-background-color: black;"
+               prefWidth="1280" prefHeight="720"> <!-- Or whatever size your overall panel/scene is -->
+    
+        <!-- The ImageView will be 1108x560. StackPane centers it by default. -->
+        <ImageView fx:id="logoAnimationImageView" />
+    
+    </StackPane>
