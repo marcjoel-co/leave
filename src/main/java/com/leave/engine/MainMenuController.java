@@ -135,6 +135,7 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    //initializes and plays logo animation
     private void setupAndPlayLogoAnimation() {
         if (logoAnimationImageView != null) {
             try {
@@ -169,6 +170,7 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    //A method that will listen to any key input from user keyboard
     public void setupGlobalKeyListener() {
         Scene scene = (rootStackPane != null) ? rootStackPane.getScene() : null;
         if (scene == null && logoAnimationImageView != null) {
@@ -183,6 +185,7 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    //A method to skip logo animation
     private void handleKeyPressToSkipLogo(KeyEvent event) {
         if (skipLogoRequested || (mainMenuGroup != null && mainMenuGroup.getOpacity() > 0.1)) return;
         skipLogoRequested = true;
@@ -194,6 +197,7 @@ public class MainMenuController implements Initializable {
         showPressKeyOrTransition();
     }
 
+    //transitions to next frame
     private void showPressKeyOrTransition() {
         if (pressKeyLabel == null) {
             transitionToMainMenu();
@@ -210,6 +214,7 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    //main menu transition
     private void transitionToMainMenu() {
         if (mainMenuGroup != null && mainMenuGroup.getOpacity() > 0.9) return;
         System.out.println("Transitioning to main menu...");
@@ -230,6 +235,7 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    //A transition design to go i main menu
     private void fadeInMainMenuAndBackground() {
         ParallelTransition parallelFadeIn = new ParallelTransition();
         boolean somethingToFade = false;
@@ -252,6 +258,7 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    //initializing menu content
     private void setupMainMenuContent() {
         System.out.println("Setting up main menu content (CharacterManager, etc.)");
         List<String> localCharacterImageFiles = List.of(
@@ -279,12 +286,14 @@ public class MainMenuController implements Initializable {
         System.out.println("Main menu content setup complete.");
     }
 
+    //setting main menu buttons when character is being chosen
     private void setMenuButtonsDisabled(boolean disabled) {
         if (characterChangeButton != null) characterChangeButton.setDisable(disabled);
         if (newGameButton != null) newGameButton.setDisable(disabled);
         if (loadGameButton != null) loadGameButton.setDisable(disabled);
     }
 
+    //load the current or first character
     private void loadCurrentCharacterDisplay(boolean isInitialLoad) {
         if (characterManager == null) { System.err.println("CharacterManager null in loadDisplay"); return; }
         if (characterImageView == null || characterNameLabel == null) { System.err.println("ImageView or NameLabel null in loadDisplay"); return; }
@@ -320,6 +329,7 @@ public class MainMenuController implements Initializable {
         }
     }
     
+    //for changing game characters
     @FXML
     private void handleCharacterChange() {
         if (characterManager == null || backgroundThunderImageView == null || backgroundSpotlightCircle == null ||
@@ -401,6 +411,7 @@ public class MainMenuController implements Initializable {
         System.out.println("Character change animation sequence (spotlight first) started.");
     }
 
+    //sets again for a new game
     @FXML
     public void handleNewGame(ActionEvent event) {
         System.out.println("handleNewGame in MainMenuController called! Transitioning to dialogue...");
@@ -414,6 +425,7 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    //load a new window
     @FXML
     public void handleLoadGame(ActionEvent event) {
         System.out.println("handleLoadGame (Quit) in MainMenuController called!");
