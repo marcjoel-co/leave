@@ -1,40 +1,53 @@
-package com.leave.engine;
+package com.leave.engine; // Or com.leave.engine
 
-//A class for managing choices of player
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ChoiceData {
-
-    //private variables for dialogues, scenes and gameOver outcome
+    @JsonProperty("text")
     private String text;
+
+    @JsonProperty("nextSceneId")
     private String nextSceneId;
+
+    @JsonProperty("outcome")
     private String outcome; 
 
-    //gets the choice of the player
+    // Default constructor for Jackson
+    public ChoiceData() {}
+
+    // Getters
     public String getText() {
         return text;
     }
 
-    //sets the choice of the player to the private variable
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    //gets the response of player to the next scene
     public String getNextSceneId() {
         return nextSceneId;
     }
 
-    //sets next scene that responded of the player
-    public void setNextSceneId(String nextSceneId) {
-        this.nextSceneId = nextSceneId;
-    }
-
-    //gets the of the decision of the player
     public String getOutcome() {
         return outcome;
     }
 
-    //sets the decision of the player and determine outcome
+    // Setters
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setNextSceneId(String nextSceneId) {
+        this.nextSceneId = nextSceneId;
+    }
+
     public void setOutcome(String outcome) {
         this.outcome = outcome;
+    }
+
+    // Optional: toString for debugging
+    @Override
+    public String toString() {
+        return "ChoiceData{" +
+               "text='" + text + '\'' +
+               ", nextSceneId='" + nextSceneId + '\'' +
+               ", outcome='" + outcome + '\'' +
+               '}';
     }
 }

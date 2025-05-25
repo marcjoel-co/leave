@@ -56,7 +56,7 @@ public class AnimationUtils {
         );
     }
 
-    // --- NEW TEXT ANIMATION METHODS ---
+    
 
     /**
      * Animates text appearing character by character in a JavaFX Label.
@@ -96,6 +96,7 @@ public class AnimationUtils {
                     if (displayedText.length() < fullText.length()) {
                         displayedText.append(fullText.charAt(displayedText.length()));
                         label.setText(displayedText.toString());
+                        AudioManager.getInstance().playTextBlip();
                     }
                 }
         );

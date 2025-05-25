@@ -7,6 +7,9 @@ module com.leave.engine {
     requires javafx.fxml;
     requires javafx.graphics; 
     requires javafx.base;
+    requires javafx.media;
+    requires java.desktop;
+    
 
     requires com.fasterxml.jackson.core;    
     requires com.fasterxml.jackson.databind; 

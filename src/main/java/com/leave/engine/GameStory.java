@@ -2,19 +2,49 @@ package com.leave.engine;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GameStory {
-    
-    /*
-     * Private variables for game title, startScene and the place holder
-     * of unique player name
-     */
+    @JsonProperty("gameTitle") 
     private String gameTitle;
+
+    @JsonProperty("startScene")
     private String startScene;
+
+    @JsonProperty("playerNamePlaceholder")
     private String playerNamePlaceholder;
 
-    private Map<String, SceneData> scenes; // Key is sceneId
-    private Map<String, OutcomeData> outcomes; // Key is outcomeId
-    // Getters and setters (or make fields public if simple, though getters/setters are better practice)
-}
-    
+    @JsonProperty("scenes")
+    private Map<String, SceneData> scenes; 
 
+    
+    public Map<String, SceneData> getScenes() {
+        return scenes;
+    }
+
+    public void setScenes(Map<String, SceneData> scenes) {
+        this.scenes = scenes;
+    }
+
+    @JsonProperty("outcomes")
+    private Map<String, OutcomeData> outcomes;
+
+    // --- Default constructor (needed by Jackson) ---
+    public GameStory() {}
+    
+    
+    public String getGameTitle() { return gameTitle; }
+    public void setGameTitle(String gameTitle) { this.gameTitle = gameTitle; }
+
+    public String getStartScene() { return startScene; }
+    public void setStartScene(String startScene) { this.startScene = startScene; }
+
+    public String getPlayerNamePlaceholder() { return playerNamePlaceholder; }
+    public void setPlayerNamePlaceholder(String playerNamePlaceholder) { this.playerNamePlaceholder = playerNamePlaceholder; }
+
+    // public Map<String, Object> getScenes() {  return scenes; }
+    // public void setScenes(Map<String, SceneData> scenes) { this.scenes = scenes; }
+
+    public Map<String, OutcomeData> getOutcomes() { return outcomes; }
+    public void setOutcomes(Map<String, OutcomeData> outcomes) { this.outcomes = outcomes; }
+}

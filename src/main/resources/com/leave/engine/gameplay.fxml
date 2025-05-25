@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+    <?import javafx.scene.image.ImageView?>
+    <?import javafx.scene.layout.BorderPane?>
+    <?import javafx.scene.layout.VBox?>
+    <?import javafx.scene.layout.StackPane?>
+    <?import javafx.geometry.Insets?>
+    
+    <StackPane fx:id="gameRootPane" styleClass="game-background-default" stylesheets="@style.css"
+               xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1"
+               fx:controller="com.leave.engine.GamePlayController">
+    
+        <ImageView fx:id="sceneBackgroundImageView" fitWidth="${gameRootPane.width}" fitHeight="${gameRootPane.height}" preserveRatio="false" />
+    
+        <BorderPane>
+            <center>
+                <VBox alignment="CENTER" spacing="20" maxWidth="800">
+                    <padding>
+                        <Insets top="50" right="50" bottom="20" left="50"/>
+                    </padding>
+                    <Label fx:id="sceneTextLabel" styleClass="dialogue-text-horror" wrapText="true" text="Scene text will appear here..."/>
+                </VBox>
+            </center>
+            <bottom>
+                <VBox fx:id="choicesVBox" alignment="CENTER" spacing="15" styleClass="choices-container">
+                    <padding>
+                        <Insets bottom="50" top="20"/>
+                    </padding>
+                
+                </VBox>
+            </bottom>
+        </BorderPane>
+    </StackPane>

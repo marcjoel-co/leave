@@ -2,12 +2,10 @@ package com.leave.engine;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects; // Not strictly needed if using direct null checks
 import java.util.ResourceBundle;
 
-import static com.leave.engine.utils.AnimationUtils.createBlinkTimeline;
+import static com.leave.engine.utils.AnimationUtils.createBlinkTimeline; // Not strictly needed if using direct null checks
 import static com.leave.engine.utils.AnimationUtils.createFadeTransition;
 import static com.leave.engine.utils.AnimationUtils.createPauseTransition;
 import com.leave.engine.utils.SpriteSheetAnimator;
@@ -15,12 +13,10 @@ import com.leave.engine.utils.SpriteSheetAnimator;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -69,7 +65,7 @@ public class MainMenuController implements Initializable {
     private boolean logoAnimationFinished = false;
     private boolean skipLogoRequested = false;
 
-    //--- Background (Stormy/Thunder) Animation Configuration ---
+    
     private static final String THUNDER_SPRITE_SHEET_PATH = "/com/leave/engine/images/background/thunder.png";
     private static final int THUNDER_FRAME_WIDTH = 500;
     private static final int THUNDER_FRAME_HEIGHT = 300;
@@ -79,7 +75,7 @@ public class MainMenuController implements Initializable {
     private SpriteSheetAnimator thunderAnimator;
     private static final double VISIBLE_BACKGROUND_OPACITY = 0.7; // Opacity for stormy background when main menu is visible
 
-    //--- Character Management & UI State ---
+    
     private CharacterManager characterManager;
     private int currentCharIndex = 0;
     private boolean isCharacterAnimating = false;
@@ -378,9 +374,9 @@ public class MainMenuController implements Initializable {
             if(backgroundSpotlightCircle != null) backgroundSpotlightCircle.setOpacity(0.0);
             
 
-            loadCurrentCharacterDisplay(false); // Loads new data into (currently opacity 0) views
+            loadCurrentCharacterDisplay(false); 
 
-            // --- FADE IN / BLINK IN EVERYTHING ---
+            
             ParallelTransition allElementsFadeIn = new ParallelTransition();
 
             allElementsFadeIn.getChildren().add(createFadeTransition(backgroundThunderImageView, mainElementsFadeDuration, 0.0, VISIBLE_BACKGROUND_OPACITY));
@@ -389,7 +385,7 @@ public class MainMenuController implements Initializable {
             allElementsFadeIn.getChildren().add(createBlinkTimeline(centerContentVBox, blinkSegmentDuration.add(Duration.millis(20)), 1.0)); // Blinks in char image, name, button
             allElementsFadeIn.getChildren().add(createBlinkTimeline(tradeMarc, blinkSegmentDuration.add(Duration.millis(20)), 1.0));
             
-            // Re-blinking character image and name for explicit control, though centerContentVBox blink might cover it
+            
             allElementsFadeIn.getChildren().add(createBlinkTimeline(characterImageView, blinkSegmentDuration, 1.0));
             allElementsFadeIn.getChildren().add(createFadeTransition(characterNameLabel, blinkSegmentDuration.multiply(5), 0.0, 1.0));
 
@@ -411,17 +407,53 @@ public class MainMenuController implements Initializable {
         System.out.println("Character change animation sequence (spotlight first) started.");
     }
 
+    
     //sets again for a new game
     @FXML
     public void handleNewGame(ActionEvent event) {
-        System.out.println("handleNewGame in MainMenuController called! Transitioning to dialogue...");
+        System.out.println("MainMenuController.handleNewGame called!");
+
+        // 1. Get the GameManager instance
+        GameManager gm = GameManager.getInstance();
+
+        // 2. Get the currently selected character's name from CharacterManager
+        if (this.characterManager == null) {
+            System.err.println("CRITICAL: CharacterManager is null in handleNewGame. Cannot proceed.");
+            // Show an error to the user perhaps
+            return;
+        }
+        String selectedCharacterName = this.characterManager.getCurrentName();
+        if (selectedCharacterName == null || selectedCharacterName.trim().isEmpty()) {
+            System.err.println("CRITICAL: Could not get a valid character name from CharacterManager.");
+            selectedCharacterName = "Hero"; // Fallback if something went wrong
+        }
+
+        // 3. Set this name in GameManager
+        gm.setCurrentPlayerCharacterName(selectedCharacterName);
+        // gm.startGame(); // startGame was already called in App.start(). 
+                         // Here, we are just confirming/setting the player character specifically.
+                         // The existing startGame in App set the initial scene.
+
+        System.out.println("MainMenuController: Transitioning to gameplay as player: " + selectedCharacterName);
         try {
             if (thunderAnimator != null) thunderAnimator.stop();
             if (logoAnimator != null) logoAnimator.stop();
-            App.setRoot("secondary"); 
+
+            // When switching to "gameplay.fxml", GamePlayController's initialize() will be called.
+            // GamePlayController should then fetch the current scene data from GameManager.
+            App.setRoot("gameplay", (controller) -> {
+                if (controller instanceof GamePlayController) {
+                    GamePlayController gpc = (GamePlayController) controller;
+                    // Now that gameplay.fxml is loaded and its controller is ready,
+                    // tell it to display the scene based on GameManager's current state.
+                    // GameManager.currentSceneId was set by GameManager.startGame() in App.start().
+                    gpc.displayCurrentScene(); 
+                }
+            });
         } catch (IOException e) {
-            System.err.println("Error loading secondary.fxml for new game:");
+            System.err.println("Error loading gameplay.fxml for new game:");
             e.printStackTrace();
+            // TODO: Show an error dialog to the user
         }
     }
 

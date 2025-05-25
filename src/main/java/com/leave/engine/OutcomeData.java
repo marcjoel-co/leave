@@ -1,31 +1,41 @@
 package com.leave.engine;
 
-//A class for managing Outcomes of the dicisions of players 
+import com.fasterxml.jackson.annotation.JsonProperty; // Good for explicit mapping
+
 public class OutcomeData {
-    private String outcomeText;
-    private String outcomeImagePath;
-    private String outcomeAudioPath;
+    @JsonProperty("message") // Explicitly map JSON key "message" to this field
+    private String message;
 
-    //A method for displaying the outcome of the player
-    public OutcomeData(String outcomeText, String outcomeImagePath, String outcomeAudioPath) {
-        this.outcomeText = outcomeText;
-        this.outcomeImagePath = outcomeImagePath;
-        this.outcomeAudioPath = outcomeAudioPath;
+    @JsonProperty("nextSceneId") // Explicitly map JSON key "nextSceneId" to this field
+    private String nextSceneId;
+
+    // Default constructor needed by Jackson for deserialization
+    public OutcomeData() {}
+
+    // Getters
+    public String getMessage() {
+        return message;
     }
 
-    //gets the outcome of player
-    public String getOutcomeText() {
-        return outcomeText;
+    public String getNextSceneId() {
+        return nextSceneId;
     }
 
-    //gets a specifed image to display along with outcome
-    public String getOutcomeImagePath() {
-        return outcomeImagePath;
+    // Setters (also often needed by Jackson unless fields are public or using other annotations)
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    //gets a specified audio to play during the display of outcome 
-    public String getOutcomeAudioPath() {
-        return outcomeAudioPath;
+    public void setNextSceneId(String nextSceneId) {
+        this.nextSceneId = nextSceneId;
     }
-    
+
+    // Optional: toString for debugging
+    @Override
+    public String toString() {
+        return "OutcomeData{" +
+               "message='" + message + '\'' +
+               ", nextSceneId='" + nextSceneId + '\'' +
+               '}';
+    }
 }

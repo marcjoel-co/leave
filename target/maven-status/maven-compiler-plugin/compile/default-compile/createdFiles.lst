@@ -1,10 +1,17 @@
+com/leave/engine/StoryLoader.class
+com/leave/engine/GameManager.class
+com/leave/engine/GamePlayController.class
 com/leave/engine/SecondaryController.class
 com/leave/engine/CharacterManager.class
 module-info.class
+com/leave/engine/SceneData.class
 com/leave/engine/utils/SpriteSheetAnimator$1.class
 com/leave/engine/utils/AnimationUtils.class
 com/leave/engine/App.class
+com/leave/engine/ChoiceData.class
 com/leave/engine/MainMenuController.class
+com/leave/engine/OutcomeData.class
 com/leave/engine/SecondaryController$1.class
+com/leave/engine/GameStory.class
 com/leave/engine/utils/SpriteSheetAnimator.class
 com/leave/engine/TitlePanel.class
