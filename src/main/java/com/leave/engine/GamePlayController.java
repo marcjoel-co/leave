@@ -566,7 +566,6 @@ private void handleScreenClick(MouseEvent event) {
             if (gameRootPane != null && gameRootPane.getScene() != null && gameRootPane.getScene().getWindow() != null) {
                 errorAlert.initOwner(gameRootPane.getScene().getWindow());
             }
-            errorAlert.showAndWait();
             Platform.exit();
             System.exit(1);
             return;
@@ -623,7 +622,7 @@ private void handleScreenClick(MouseEvent event) {
                     if (gameRootPane != null && gameRootPane.getScene() != null && gameRootPane.getScene().getWindow() != null) {
                         alert.initOwner(gameRootPane.getScene().getWindow());
                     }
-                    alert.showAndWait();
+
                     System.out.println("GPC: Exiting game after completion message.");
                     if (audioManager != null) audioManager.shutdown();
                     Platform.exit();
@@ -635,8 +634,10 @@ private void handleScreenClick(MouseEvent event) {
                 System.out.println("GPC: Scene " + sceneId + " ends here narratively (no further navigation defined in JSON, and not an 'ending_' scene).");
                 showDialogueArea(); // Make sure dialogue area is visible
 
-                String deadEndMessage = "The story pauses here. You've reached a point with no further defined path in the current game data.";
+                String deadEndMessage = "The story ends here.";
+
                 if (sceneTextLabel != null) {
+
                     sceneTextLabel.setText(deadEndMessage);
                     System.out.println("GPC: Displayed dead-end message: \"" + deadEndMessage + "\"");
                 } else {
@@ -656,8 +657,6 @@ private void handleScreenClick(MouseEvent event) {
                     if (gameRootPane != null && gameRootPane.getScene() != null && gameRootPane.getScene().getWindow() != null) {
                         deadEndAlert.initOwner(gameRootPane.getScene().getWindow());
                     }
-
-                    deadEndAlert.showAndWait();
                     
                             System.out.println("GPC: Exiting game after narrative dead end confirmation.");
                             if (audioManager != null) audioManager.shutdown();

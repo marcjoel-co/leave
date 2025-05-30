@@ -142,9 +142,14 @@
       "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_corridor_encounter.png",
       "characterSprite": { "id": "disfiguredMonster_dead_static", "path": "/com/leave/engine/images/characters/bleeding monster.png" },
       "choices": [
+        
         { "text": "Try to open the exit door", "nextSceneId": "open_exit_door" },
         { "text": "Ignore the door and keep searching", "nextSceneId": "ignore_exit_door" }
-      ]
+      ],
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/hallwayexit.png",
+          "frameWidth": 700, "frameHeight": 500,"cols": 1,"totalFrames": 10,"fps": 1.5,"loop": false
+      }
     },
     "open_exit_door": {
       "dialogue": [{ "speaker": "Narrator", "line": "You try the handle. It's locked! You need a key. Frustrated, you start searching the nearby area again. You find three doors, distinguished by color: red, blue, and yellow." }],
@@ -286,7 +291,7 @@
         { "speaker": "Narrator", "line": "You became another lost echo in the labyrinth." }
       ],
       "backgroundMusic": "/com/leave/engine/data/audio/despair_ambience.wav",
-      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_endless_corridors_fading.png",
+      
       "endingTitle": "LOST IN DESPAIR :("
     }
   },
