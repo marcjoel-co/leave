@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static com.leave.engine.utils.AnimationUtils.animateText; 
+import static com.leave.engine.utils.AnimationUtils.animateText; // Ensure this utility exists and works
 import com.leave.engine.utils.AudioManager;
 import com.leave.engine.utils.SpriteSheetAnimator;
 
@@ -45,7 +45,7 @@ public class GamePlayController implements Initializable {
     private GameManager gameManager;
     private AudioManager audioManager;
     private SpriteSheetAnimator currentBackgroundAnimator;
-    private SpriteSheetAnimator currentCharacterAnimator; // For on-screen characterDisplayImageView
+    private SpriteSheetAnimator currentCharacterAnimator; 
 
     private List<DialogueEntry> currentSceneDialogueLines;
     private int currentDialogueLineIndex;
@@ -185,7 +185,7 @@ public class GamePlayController implements Initializable {
         return;
     }
 
-    // 4. Now, conditionally set scene-specific elements like the ending title
+    
     //    This happens AFTER the reset, so it only shows if the current scene requires it.
     if (endingTitleLabel != null) {
         if (currentSceneData.getEndingTitle() != null && !currentSceneData.getEndingTitle().trim().isEmpty()) {

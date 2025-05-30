@@ -1,10 +1,10 @@
-package com.leave.engine; // Or "com.leave.engine" if that's your POJO package
+package com.leave.engine; 
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class SceneData {
+public class SceneData 
+{
     private String id;                      
     private List<DialogueEntry> dialogue;   
     private String backgroundImage;         // Path for a static background image
@@ -18,9 +18,9 @@ public class SceneData {
     private String action;                  // Currently unused 
     private String endingTitle; // tite for the ending scene, 
     
-    
-       @JsonProperty("nextSceneIdIfNameSet") 
-      private String nextSceneIdIfNameSet; 
+
+    @JsonProperty("nextSceneIdIfNameSet") 
+    private String nextSceneIdIfNameSet; 
 
     
     public SceneData() {}
@@ -78,22 +78,5 @@ public class SceneData {
     
     {
     this.endingTitle = endingTitle;
-    }
-    // poor mans bug
-    @Override
-    public String toString() {
-        return "SceneData{" +
-               "id='" + id + '\'' +
-               ", dialogueCount=" + (dialogue != null ? dialogue.size() : 0) +
-               ", backgroundImage='" + backgroundImage + '\'' +
-               ", backgroundSpritePath=" + (backgroundSprite != null ? backgroundSprite.getPath() : "null") +
-               ", characterSpriteId=" + (characterSprite != null ? characterSprite.getId() : "null") +
-               ", objectCount=" + (objects != null ? objects.size() : 0) +
-               ", choiceCount=" + (choices != null ? choices.size() : 0) +
-               ", autoTransitionTo='" + autoTransitionTo + '\'' +
-               ", outcome='" + outcome + '\'' +
-               ", backgroundMusic='" + backgroundMusic + '\'' +
-               ", action='" + action + '\'' +
-               '}';
     }
 }

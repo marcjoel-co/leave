@@ -3,7 +3,7 @@ package com.leave.engine;
 import java.io.IOException;
 import java.net.URL;
 
-import com.leave.engine.utils.AudioManager; // Keep for promptForPlayerName (if you ever re-add it or for other dialogs)
+import com.leave.engine.utils.AudioManager; 
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -54,6 +54,7 @@ public class App extends Application {
         // --- STAGE SETUP BEGINS HERE ---
         appPrimaryStage.setTitle("Delulu"); 
         appPrimaryStage.setFullScreen(true); 
+        appPrimaryStage.setFullScreenExitHint("");
         appPrimaryStage.setResizable(false);  
 
         System.out.println("App.start(): JavaFX Application Thread INITIALIZING.");

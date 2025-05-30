@@ -1,4 +1,4 @@
-package com.leave.engine; // Or your POJO package
+package com.leave.engine; 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

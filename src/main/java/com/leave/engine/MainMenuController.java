@@ -525,7 +525,7 @@ public class MainMenuController implements Initializable {
         } catch (IOException e) {
             System.err.println("MainMenuController Error: loading gameplay.fxml for new game: " + e.getMessage());
             e.printStackTrace();
-            // TODO: Show user-friendly error dialog
+            
         }
     }
 
