@@ -7,7 +7,7 @@ public class CharacterSpriteInfo {
     private String path;
     private int frameWidth;
     private int frameHeight;
-    @JsonProperty("cols") // This ensures JSON "cols" maps to "numCols"
+    @JsonProperty("cols") // Using @JsonProperty to map "cols" in JSON to numCols in Java
     private int numCols;
     private int totalFrames;
     private double fps;
@@ -15,8 +15,8 @@ public class CharacterSpriteInfo {
     private boolean visibleInitially;
 
     // Fields for positioning - matching the JSON "positionX" and assuming "positionY"
-    private double positionX; // Using double, adjust to int if your JSON uses integers
-    private double positionY; // Using double, adjust to int if your JSON uses integers
+    private double positionX; 
+    private double positionY; 
 
     // Default constructor - ESSENTIAL for Jackson
     public CharacterSpriteInfo() {}
@@ -30,10 +30,11 @@ public class CharacterSpriteInfo {
     public int getTotalFrames() { return totalFrames; }
     public double getFps() { return fps; }
     public boolean isLoop() { return loop; }
-    public double getPositionX() { return positionX; } // Getter for positionX
-    public double getPositionY() { return positionY; } // Getter for positionY
 
-    // Setters - ESSENTIAL for Jackson
+    public double getPositionX() { return positionX; } 
+    public double getPositionY() { return positionY; } 
+
+    
     public void setId(String id) { this.id = id; }
     public void setPath(String path) { this.path = path; }
     public void setFrameWidth(int frameWidth) { this.frameWidth = frameWidth; }
@@ -42,8 +43,8 @@ public class CharacterSpriteInfo {
     public void setTotalFrames(int totalFrames) { this.totalFrames = totalFrames; }
     public void setFps(double fps) { this.fps = fps; }
     public void setLoop(boolean loop) { this.loop = loop; }
-    public void setPositionX(double positionX) { this.positionX = positionX; } // Setter for positionX
-    public void setPositionY(double positionY) { this.positionY = positionY; } // Setter for positionY
+    public void setPositionX(double positionX) { this.positionX = positionX; } 
+    public void setPositionY(double positionY) { this.positionY = positionY; } 
      public boolean isVisibleInitially() {
         return visibleInitially;
     }

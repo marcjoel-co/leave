@@ -1,0 +1,83 @@
+
+######################
+# Maven Build Output #
+######################
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+#######################
+# Compiled Java Files #
+#######################
+*.class
+
+##########
+# Log Files #
+##########
+*.log
+logs/
+# If you have specific log file names or patterns, add them here
+
+######################
+# IDE Specific Files #
+######################
+# IntelliJ
+.idea/
+*.iml
+*.iws
+out/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/ # Eclipse default output older versions
+
+# NetBeans
+nbproject/
+build/
+dist/
+*~
+*.swp
+
+##########################
+# Operating System Files #
+##########################
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+#####################
+# Dependency Caches #
+#####################
+.mvn/timing.properties
+# Consider if you want to ignore the Maven wrapper jar itself if you distribute source
+# .mvn/wrapper/maven-wrapper.jar
+
+######################################
+# Specific to your project structure #
+######################################
+# You don't seem to have any specific temp/generated files in your source tree to ignore,
+# which is good. The main thing is ignoring 'target/'.
+
+# If you ever have large SDKs or libraries checked in (not recommended for Maven projects)
+# For example, if you had a manual JavaFX SDK folder:
+# javafx-sdk-*/
+
+# Archive files (if you build zips/tars locally for distribution and don't want them in repo)
+*.zip
+*.tar.gz
+*.rar
+*.7z

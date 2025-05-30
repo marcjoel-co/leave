@@ -10,8 +10,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leave.engine.utils.AnimationUtils;
 
-import javafx.animation.Timeline; // Jackson import
-import javafx.event.ActionEvent;   // Jackson import
+import javafx.animation.Timeline; 
+import javafx.event.ActionEvent;  
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

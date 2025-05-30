@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static com.leave.engine.utils.AnimationUtils.animateText; // Ensure this utility exists and works
+import static com.leave.engine.utils.AnimationUtils.animateText;
 import com.leave.engine.utils.AudioManager;
 import com.leave.engine.utils.SpriteSheetAnimator;
 
@@ -151,13 +151,13 @@ public class GamePlayController implements Initializable {
         }
     }
 
-        // --- Core Scene Display Logic ---
+        
 
     public void displayCurrentScene() {
-    
-    SceneData currentSceneData = gameManager.getCurrentSceneData();
-    String sceneIdForLog = (currentSceneData != null) ? currentSceneData.getId() : (gameManager != null ? gameManager.getCurrentSceneId() : "NULL_SCENE_ID");
-    System.out.println("GPC: displayCurrentScene() for scene ID: " + sceneIdForLog);
+        
+        SceneData currentSceneData = gameManager.getCurrentSceneData();
+        String sceneIdForLog = (currentSceneData != null) ? currentSceneData.getId() : (gameManager != null ? gameManager.getCurrentSceneId() : "NULL_SCENE_ID");
+        System.out.println("GPC: displayCurrentScene() for scene ID: " + sceneIdForLog);
 
     
     if (endingTitleLabel != null) {
@@ -236,7 +236,7 @@ public class GamePlayController implements Initializable {
 }
 
     
-
+  // sets the background
     private void setBackground(SpriteInfo bgSpriteInfo, String staticBgImagePath) {
         if (sceneBackgroundImageView == null) return;
         sceneBackgroundImageView.setImage(null);
@@ -286,7 +286,7 @@ public class GamePlayController implements Initializable {
             System.out.println("GPC: No background specified or failed to load for the current scene.");
         }
     }
-
+    // loads the static image to the view
     private void loadStaticImageToView(String imagePath, ImageView imageView, String logPrefix) {
         if (imagePath == null || imagePath.trim().isEmpty() || imageView == null) {
              System.err.println(logPrefix + "Skipping load: imagePath or imageView is null.");
@@ -360,7 +360,7 @@ public class GamePlayController implements Initializable {
         }
     }
 
-    // --- Dialogue Processing ---
+    
 
     // In GamePlayController.java
 
@@ -631,7 +631,7 @@ private void handleScreenClick(MouseEvent event) {
                 });
                 delayBeforeMessage.play();
             } else {
-                // --- THIS IS THE "NARRATIVE DEAD END" SCENE LOGIC ---
+                
                 System.out.println("GPC: Scene " + sceneId + " ends here narratively (no further navigation defined in JSON, and not an 'ending_' scene).");
                 showDialogueArea(); // Make sure dialogue area is visible
 
@@ -644,31 +644,26 @@ private void handleScreenClick(MouseEvent event) {
                 }
 
                 // Pause for a moment to let the player read the message on screen
-                PauseTransition delayBeforeAlert = new PauseTransition(Duration.millis(3000)); // 3 seconds
+                PauseTransition delayBeforeAlert = new PauseTransition(Duration.millis(7000)); // 3 seconds
                 delayBeforeAlert.setOnFinished(event -> {
                     Alert deadEndAlert = new Alert(Alert.AlertType.INFORMATION);
                     deadEndAlert.setTitle("Narrative End");
                     deadEndAlert.setHeaderText("You've reached a narrative dead end.");
                     deadEndAlert.setContentText("The game does not continue from this point in the current story data. The application will now offer to close.");
 
-                    // Optional: Add specific buttons if you want "Return to Menu" vs "Exit"
-                    // For simplicity, an "OK" button leading to exit is fine.
-                    // ButtonType exitButtonType = new ButtonType("Exit Game");
-                    // deadEndAlert.getButtonTypes().setAll(exitButtonType);
+                    
 
                     if (gameRootPane != null && gameRootPane.getScene() != null && gameRootPane.getScene().getWindow() != null) {
                         deadEndAlert.initOwner(gameRootPane.getScene().getWindow());
                     }
 
                     deadEndAlert.showAndWait();
-                    // .ifPresent(response -> {  // If you added custom buttons
-                    //    if (response == exitButtonType) {
+                    
                             System.out.println("GPC: Exiting game after narrative dead end confirmation.");
                             if (audioManager != null) audioManager.shutdown();
                             Platform.exit();
                             System.exit(0);
-                    //    }
-                    // });
+                    
                 });
                 delayBeforeAlert.play();
             }
@@ -698,9 +693,9 @@ private void handleScreenClick(MouseEvent event) {
             // if (choice.getRequiredItem() != null && !choice.getRequiredItem().trim().isEmpty()) {
             //     if (!gameManager.hasItem(choice.getRequiredItem())) displayChoice = false;
             // }
-            if (displayChoice && choice.getRequiredFlag() != null && !choice.getRequiredFlag().trim().isEmpty()) {
-                if (!gameManager.checkFlag(choice.getRequiredFlag())) displayChoice = false;
-            }
+            // if (displayChoice && choice.getRequiredFlag() != null && !choice.getRequiredFlag().trim().isEmpty()) {
+            //     if (!gameManager.checkFlag(choice.getRequiredFlag())) displayChoice = false;
+            // }
 
             if (displayChoice) {
                 atLeastOneChoiceAvailable = true;
@@ -734,7 +729,7 @@ private void handleScreenClick(MouseEvent event) {
 
         gameManager.makeChoice(choice); 
 
-        // Defer UI update to ensure GameManager state change is processed
+        // decide on the next step based on the choice
         Platform.runLater(() -> {
             if (gameManager.isGameOver()) {
                 displayOutcome();
@@ -744,7 +739,7 @@ private void handleScreenClick(MouseEvent event) {
             }
         });
     }
-
+    // for the ending scenes
     private void displayOutcome() {
         System.out.println("GPC: Displaying outcome state.");
 
@@ -771,10 +766,11 @@ private void handleScreenClick(MouseEvent event) {
                             });
                             choicesVBox.getChildren().add(continueButton);
                         } else {
-                            addTerminalOutcomeButtons(); // For outcomes that don't lead to another scene
+                            addTerminalOutcomeButtons();
                         }
                     } else {
                         System.err.println("GPC displayOutcome CB: choicesVBox is null. Cannot show outcome buttons.");
+                        addTerminalOutcomeButtons();
                     }
                 });
             } else {
@@ -830,7 +826,7 @@ private void handleScreenClick(MouseEvent event) {
         });
 
         choicesVBox.getChildren().addAll(mainMenuButton, quitButton);
-        choicesVBox.setDisable(false); // Make sure buttons are interactive
+        choicesVBox.setDisable(false); 
     }
   
 }

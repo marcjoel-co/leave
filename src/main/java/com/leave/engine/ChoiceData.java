@@ -23,7 +23,7 @@ public class ChoiceData {
     // public void setRequiredFlag(String requiredFlag) { this.requiredFlag = requiredFlag; }
 
 
-    // Optional: toString for debugging
+    // De buggy 
     @Override
     public String toString() {
         return "ChoiceData{" +

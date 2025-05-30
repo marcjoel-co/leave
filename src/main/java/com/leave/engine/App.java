@@ -16,29 +16,28 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font; 
 import javafx.stage.Stage; 
 
-public class App extends Application {
+public class App extends Application { // WOah polymorphism
 
     private static Scene primaryScene;
     public static Font HORROR_FONT; 
-    public static String HORROR_FONT_FAMILY_NAME; // not used
+    public static String HORROR_FONT_FAMILY_NAME; 
     private static Stage appPrimaryStage;
     private static GameManager gameManager;
     private AudioManager audioManager;
 
-    private static final String STORY_JSON_PATH = "/com/leave/engine/data/sao.json";
-    private static final String DEFAULT_FONT_PATH = "/com/leave/engine/data/Le-Mano.ttf"; 
+    private static final String STORY_JSON_PATH = "/com/leave/engine/data/sao.json"; // our Json file
+    private static final String DEFAULT_FONT_PATH = "/com/leave/engine/data/Le-Mano.ttf"; // horror font
 
+
+    // prep to load
     @Override
     public void init() throws Exception {
         super.init();
         audioManager = AudioManager.getInstance();
-        audioManager.preloadSoundEffects(
-            "/com/leave/engine/data/audio/clicker.wav",
-            "/com/leave/engine/data/audio/heartcl.wav"
-        );
         audioManager.loadTextBlipSound("/com/leave/engine/data/audio/blip.wav");
     }
 
+    // stops the app
     @Override
     public void stop() throws Exception {
         super.stop();
@@ -50,17 +49,20 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        // sets up the window similar to a JFrame but javafx
         appPrimaryStage = stage;
-        // --- STAGE SETUP BEGINS HERE ---
+        
         appPrimaryStage.setTitle("Delulu"); 
         appPrimaryStage.setFullScreen(true); 
         appPrimaryStage.setFullScreenExitHint("");
         appPrimaryStage.setResizable(false);  
 
+        /* most of the println are there for debugging */
         System.out.println("App.start(): JavaFX Application Thread INITIALIZING.");
 
+        
         boolean canProceed = true;
-        gameManager = GameManager.getInstance();
+        gameManager = GameManager.getInstance(); // obtains a gamemanager instance
         System.out.println("App.start(): GameManager instance obtained.");
 
         // Tries to load story 
@@ -92,11 +94,10 @@ public class App extends Application {
 
         loadCustomFonts();
         System.out.println("App.start(): Loading initial FXML view (gameEntry.fxml)...");
-        loadInitialViewAndSetScene("gameEntry"); // This loads MainMenuController
+        loadInitialViewAndSetScene("gameEntry"); 
 
-        // --- STAGE SHOWING ---
-        // This is the most important part for the frame to be visible
-        if (appPrimaryStage.getScene() != null) { // Ensure a scene was actually set
+        
+        if (appPrimaryStage.getScene() != null) { 
              appPrimaryStage.show();
              System.out.println("App.start(): Stage should now be visible.");
         } else {
@@ -139,8 +140,7 @@ public class App extends Application {
         if (rootNode != null) {
             if (primaryScene == null) {
                 primaryScene = new Scene(rootNode);
-                // Set initial dimensions if not full screen (though you set full screen)
-                // primaryScene = new Scene(rootNode, 1280, 720); // Example size
+                
                 
                 URL cssUrl = App.class.getResource("/com/leave/engine/style.css");
                 if (cssUrl != null) {
@@ -230,8 +230,8 @@ public class App extends Application {
             if (fontUrl != null) {
                 HORROR_FONT = Font.loadFont(fontUrl.toExternalForm(), 20); // Load with a base size
                 if (HORROR_FONT != null) {
-                    HORROR_FONT_FAMILY_NAME = HORROR_FONT.getFamily();
-                    System.out.println("App.loadCustomFonts(): Font '" + HORROR_FONT_FAMILY_NAME + "' loaded from " + DEFAULT_FONT_PATH);
+                    // HORROR_FONT_FAMILY_NAME = HORROR_FONT.getFamily();
+                    // System.out.println("App.loadCustomFonts(): Font '" + HORROR_FONT_FAMILY_NAME + "' loaded from " + DEFAULT_FONT_PATH);
                 } else {
                     System.err.println("App.loadCustomFonts(): WARNING - Font.loadFont returned null for " + DEFAULT_FONT_PATH);
                 }

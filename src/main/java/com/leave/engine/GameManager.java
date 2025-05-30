@@ -4,18 +4,23 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * GameManager is a  class that manages the game state, story loading,
+ * player character, current scene, inventory, and game outcomes.
+ * It provides methods to load stories, start the game, make choices, and manage
+ * player data.
+ */
 
 public class GameManager {
     private static GameManager instance;
     private StoryLoader storyLoader;
-    private GameStory gameStory; // This should be GameStory with correctly typed Maps
+    private GameStory gameStory;
     private String currentPlayerName = "Player";
     private String currentSceneId;
     private boolean gameOver = false;
     private String currentOutcomeId;
-    private Set<String> playerInventory = new HashSet<>();
-    private Set<String> storyFlags = new HashSet<>();
+    // private Set<String> playerInventory = new HashSet<>(); // for future implementation of items
+    // private Set<String> storyFlags = new HashSet<>();// for future implementation
     private String currentPlayerPortraitPath;
 
     private GameManager() {
@@ -53,19 +58,22 @@ public class GameManager {
                                "' is invalid or scenes map not populated correctly.");
             throw new IllegalStateException("Invalid start scene configuration in story data.");
         }
+        // defaults the necessary variables
         this.currentSceneId = startSceneIDFromStory;
         this.gameOver = false;
         this.currentOutcomeId = null;
         this.currentPlayerPortraitPath = null;
-        this.playerInventory.clear();
-        this.storyFlags.clear();
+        // this.playerInventory.clear(); // for the items
+        // this.storyFlags.clear();
         
+        // debug
         System.out.println("GameManager.startGame FINISHED. currentSceneId SET TO: " + this.currentSceneId +
                            ". currentPlayerName (current): '" + this.currentPlayerName + "'" +
                            ". gameStory IS " + (this.gameStory != null ? "NOT NULL" : "NULL") +
                            ". gameStory.scenes IS " + (this.gameStory.getScenes() != null ? "NOT NULL (Size: " + this.gameStory.getScenes().size() + ")" : "NULL"));
     }
 
+    // sets the current player character name from mainmenu
     public void setCurrentPlayerCharacterName(String selectedCharacterName) {
        if (selectedCharacterName != null && !selectedCharacterName.trim().isEmpty()) {
             this.currentPlayerName = selectedCharacterName;
@@ -75,19 +83,20 @@ public class GameManager {
             System.err.println("GameManager: Invalid character name provided. Keeping: " + this.currentPlayerName);
         }
     }
+    // a getter and sett  of that player character portrait
     public void setCurrentPlayerPortraitPath(String path) 
     { 
         this.currentPlayerPortraitPath = path;
         System.out.println("GameManager: Player portrait path set to: " + path);
     }
 
-     public String getCurrentPlayerPortraitPath() { 
+    public String getCurrentPlayerPortraitPath() { 
         return this.currentPlayerPortraitPath;
     }
 
     
 
-
+    // 
     public SceneData getCurrentSceneData() {
         if (gameStory == null || currentSceneId == null || gameStory.getScenes() == null) {
             System.err.println("GameManager.getCurrentSceneData: GameStory, currentSceneId, or scenes map is null.");
@@ -99,7 +108,7 @@ public class GameManager {
         }
         return sceneData;
     }
-
+    
     public String processText(String rawText) {
         if (rawText == null) return "";
         String placeholder = (gameStory != null && gameStory.getPlayerNamePlaceholder() != null) ?
@@ -250,8 +259,9 @@ public class GameManager {
         return "{playerName}";
     }
 
-     public boolean hasItem(String itemId){ return playerInventory.contains(itemId); }
-     public boolean checkFlag(String flag){ return storyFlags.contains(flag); }
-     public void addItemToInventory(String itemId) { this.playerInventory.add(itemId); System.out.println("Item added: " + itemId); }
-     public void setFlag(String flag) { this.storyFlags.add(flag); System.out.println("Flag set: " + flag); }
+    // Future implementation for inventory and flags
+    //  public boolean hasItem(String itemId){ return playerInventory.contains(itemId); }
+    //  public boolean checkFlag(String flag){ return storyFlags.contains(flag); }
+    //  public void addItemToInventory(String itemId) { this.playerInventory.add(itemId); System.out.println("Item added: " + itemId); }
+    //  public void setFlag(String flag) { this.storyFlags.add(flag); System.out.println("Flag set: " + flag); }
 }

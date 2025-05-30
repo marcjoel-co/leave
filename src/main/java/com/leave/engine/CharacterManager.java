@@ -30,17 +30,17 @@ public class CharacterManager {
 
     //A method to switch through the next character
     public void nextCharacter() {
-        if (imageFiles.isEmpty()) return; // Should not happen if constructor validation works
+        if (imageFiles.isEmpty()) return;
         currentIndex = (currentIndex + 1) % imageFiles.size();
     }
 
     //A method for switching to the previous character
-    public void previousCharacter() { // Added for completeness, might be useful later
-        if (imageFiles.isEmpty()) return;
-        currentIndex = (currentIndex - 1 + imageFiles.size()) % imageFiles.size();
-    }
+    // public void previousCharacter() {
+    //     if (imageFiles.isEmpty()) return;
+    //     currentIndex = (currentIndex - 1 + imageFiles.size()) % imageFiles.size(); // 
+    // }
 
-    // Renamed from getImage() to be more specific, matching what MainMenuController was expecting
+    // get the image path of a character
     public String getCurrentImagePath() {
         if (imageFiles.isEmpty()) return null;
         return imageFiles.get(currentIndex);
@@ -49,12 +49,12 @@ public class CharacterManager {
 
     //Gets the name of the current character
     public String getCurrentName() {
-        if (characterNames.isEmpty()) return null; // Consistency check
+        if (characterNames.isEmpty()) return null; 
         return characterNames.get(currentIndex);
     }
 
     //gets returns the next frame to display
-    public int getCurrentIndex() { // Keep one method for getting the index
+    public int getCurrentIndex() {
         return currentIndex;
     }
 
@@ -64,7 +64,7 @@ public class CharacterManager {
             this.currentIndex = index;
         } else {
             System.err.println("CharacterManager: Attempt to set invalid current index: " + index);
-            // Optionally throw an IllegalArgumentException here as well for stricter error handling
+           
         }
     }
 

@@ -1,5 +1,6 @@
 package com.leave.engine;
 
+// conversational dialogue entry class
 public class DialogueEntry {
     private String speaker;
     private String line;

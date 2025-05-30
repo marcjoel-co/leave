@@ -18,4 +18,4 @@ module com.leave.engine {
     opens com.leave.engine to javafx.fxml, com.fasterxml.jackson.databind;
     exports com.leave.engine;
     exports com.leave.engine.utils;
-}    
+}
