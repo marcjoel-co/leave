@@ -112,11 +112,7 @@
     "ignore_guy_1": {
       "dialogue": [{ "speaker": "Narrator", "line": "You decide to ignore the guy and move forward to a different hallway where you see two items on a dusty table." }],
       "backgroundMusic": "/com/leave/engine/data/audio/tense_hallway_探索.wav",
-      
-      "objects": [
-        { "id": "shovel", "name": "Shovel", "imagePath": "/com/leave/engine/images/items/placeholder_shovel.png", "x": 200, "y": 400},
-        { "id": "key_item", "name": "Old Key", "imagePath": "/com/leave/engine/images/items/placeholder_key.png", "x": 500, "y": 400}
-      ],
+      "backgroundImage": "/com/leave/engine/images/backgrounds/hallway_with_guy.png",
       "choices": [
         { "text": "Take the shovel", "nextSceneId": "take_shovel", "action": "ADD_ITEM_SHOVEL"},
         { "text": "Take the key", "nextSceneId": "take_key", "action": "ADD_ITEM_KEY"}
@@ -129,8 +125,11 @@
         { "speaker": "Narrator", "line": "You rush in, slamming it shut, only to find a gigantic spider descending from the ceiling. It jumps on your face and eats you." }
       ],
       "backgroundMusic": "/com/leave/engine/data/audio/chase_then_doom.wav",
-      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_corridor.png",
       "characterSprite": { "id": "disfiguredMonster_static", "path": "/com/leave/engine/images/characters/bleeding_monster.png", "frameWidth": 100, "frameHeight": 100, "cols": 1, "totalFrames": 1, "fps": 1.0, "loop": false },
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/hallwayexit.png",
+          "frameWidth": 700, "frameHeight": 500,"cols": 1,"totalFrames": 10,"fps": 1.5,"loop": false
+      },
       "outcome": "YOU_DIED_SPIDER"
     },
     "take_shovel": {
@@ -160,13 +159,19 @@
     "red_door": {
       "dialogue": [{ "speaker": "Narrator", "line": "You open the red door and step through, only to find the floor missing. You fall into a 10-foot drop and land in a pit of fire, burning to death." }],
       "backgroundMusic": "/com/leave/engine/data/audio/intense_fail_sfx.wav",
-      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_fire_pit.png",
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/hallwayexit.png",
+          "frameWidth": 700, "frameHeight": 500,"cols": 1,"totalFrames": 10,"fps": 1.5,"loop": false
+      },
       "outcome": "YOU_DIED_FIRE_PIT"
     },
     "yellow_door": {
       "dialogue": [{ "speaker": "Narrator", "line": "You open the yellow door and see sunlight! You start running towards it, hope surging in your chest. Suddenly, you feel a sharp pain in your back as a knife is plunged into you. You die just meters from freedom." }],
       "backgroundMusic": "/com/leave/engine/data/audio/false_hope_sfx.wav",
-      "backgroundImage": "/com/leave/engine/images/backgrounds/fire_exit.png",
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/baddie.png",
+          "frameWidth": 5000, "frameHeight": 300,"cols": 8,"totalFrames": 8,"fps": 1.5,"loop": false
+      },
       "outcome": "YOU_DIED_KNIFE_BACK"
     },
     "blue_door": {
@@ -239,7 +244,10 @@
         { "speaker": "Narrator", "line": "Your remains would not be found for a long, long time, another secret swallowed by that cursed place." }
       ],
       "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_bad.wav",
-      "backgroundImage": "/com/leave/engine/images/backgrounds/brickroom.png",
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/hallwayexit.png",
+          "frameWidth": 700, "frameHeight": 500,"cols": 1,"totalFrames": 10,"fps": 1.5,"loop": false
+      },
       "endingTitle": "SPIDER'S PREY (Misplaced Trust)"
     },
     "ending_bad_firePit": {
@@ -248,7 +256,10 @@
         { "speaker": "Narrator", "line": "Another soul consumed, leaving only ashes and unanswered questions." }
       ],
       "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_bad.wav",
-      
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/hallwayexit.png",
+          "frameWidth": 5000, "frameHeight": 300,"cols": 8,"totalFrames": 10,"fps": 1.5,"loop": false
+      },
       "endingTitle": "ASHES TO ASHES (Red Door's Deceit)"
     },
     "ending_bad_knifeBack": {

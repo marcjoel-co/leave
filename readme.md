@@ -6,8 +6,8 @@
 
 "The Night Shift" is a data-driven Choose Your Own Adventure (CYOA) semi game engine developed using JavaFX for the graphical user interface and Maven for project management similar to Undertale! The engine is designed to dynamically load interactive narratives from JSON files, offering a flexible framework for creating visual adventure games. It features scene rendering with backgrounds and character sprites, interactive dialogue, player choices that shape the story, and state management.
 
-## ✨ Core Features
-
+## ✨ Core Feature
+* ** joel*
 * **📖 Data-Driven Storytelling:** Game narratives, including scenes, dialogue, character appearances, choices, and asset paths, are defined externally in JSON files. This allows for easy content creation and modification without altering Java code.
 * **🖼️ Visual Scene Rendering:** Supports static background images and animated background spritesheets.
 * **🧍 Character Representation:** Displays on-screen character sprites (both static single-frame images and animated spritesheets) and dedicated dialogue portraits for speakers.
@@ -23,8 +23,6 @@
 * **`src/main/resources`**: All assets required by the application at runtime. The `com/leave/engine` subdirectory helps keep resources organized consistently with the Java package structure, which is good practice for `getResourceAsStream`.
 * **`pom.xml`**: The Maven configuration file, defining dependencies (JavaFX modules, Jackson, etc.) and build plugins (like `javafx-maven-plugin`).
 * **`module-info.java`**: Defines module requirements and exports for use with JPMS, enhancing encapsulation and reliability.
-
-Key Feature
 
 * **`App.java`**: The main entry point. Initializes JavaFX, creates the primary stage, loads the initial FXML (`gameEntry.fxml`), and handles high-level scene transitions using `App.setRoot()`. It also initializes singletons like `GameManager` and `AudioManager` at startup.
 * **`GameManager.java`**: A singleton serving as the central "brain" of the game.
@@ -74,8 +72,8 @@ Key Feature
 * **Modularity:** Utilizes Java modules (JPMS) and separates concerns into distinct classes and packages.
 * **Single Responsibility (Attempted):** Each class aims to manage a specific aspect of the game (e.g., `AudioManager` for audio, `SpriteSheetAnimator` for sprite rendering).
 
-## 🔮 Future Enhancements
-
+## 🔮 Future EnhancementsEijel
+* Eijel
 * **Create a proper mainmenu system** unhard code the main menu system
 * **Save/Load Game State:** Allow players to save and resume their progress.
 * **Inventory System:** Implement item collection and usage affecting choices and puzzles.
