@@ -1,80 +1,99 @@
-package com.leave.engine; // Or com.leave.engine
+package com.leave.engine; // Or "com.leave.engine" if that's your POJO package
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SceneData {
-    @JsonProperty("id")
-    private String id; // Though optional if key is used
-
-    @JsonProperty("text")
-    private String text;
-
-    @JsonProperty("backgroundImage")
-    private String backgroundImage;
-
-    @JsonProperty("choices")
-    private List<ChoiceData> choices; // Ensure this is correctly typed
-
-    @JsonProperty("autoTransitionTo")
-    private String autoTransitionTo;
-
-    @JsonProperty("outcome")
-    private String outcome;
-
-    // Default constructor for Jackson
-    public SceneData() {}
-
-    // Getters
-    public String getId() {
-        return id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getBackgroundImage() {
-        return backgroundImage;
-    }
-
-    public List<ChoiceData> getChoices() { // Must return List<ChoiceData>
-        return choices;
-    }
-
-    public String getAutoTransitionTo() {
-        return autoTransitionTo;
-    }
-
-    public String getOutcome() {
-        return outcome;
-    }
-
-    // Setters
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setBackgroundImage(String backgroundImage) {
-        this.backgroundImage = backgroundImage;
-    }
-
-    public void setChoices(List<ChoiceData> choices) { // Must accept List<ChoiceData>
-        this.choices = choices;
-    }
-
-    public void setAutoTransitionTo(String autoTransitionTo) {
-        this.autoTransitionTo = autoTransitionTo;
-    }
-
-    public void setOutcome(String outcome) {
-        this.outcome = outcome;
-    }
+    private String id;                      
+    private List<DialogueEntry> dialogue;   
+    private String backgroundImage;         // Path for a static background image
+    private SpriteInfo backgroundSprite;    // Information for an animated background sprite
+    private CharacterSpriteInfo characterSprite; 
+    private List<InteractiveObjectInfo> objects; 
+    private List<ChoiceData> choices;       
+    private String autoTransitionTo;        
+    private String outcome;                 
+    private String backgroundMusic;         
+    private String action;                  // Currently unused 
+    private String endingTitle; // tite for the ending scene, 
+    
+    
+       @JsonProperty("nextSceneIdIfNameSet") 
+      private String nextSceneIdIfNameSet; 
 
     
+    public SceneData() {}
+
+    // --- Getters and Setters for ALL fields ---
+    // Jackson needs these (or public fields) to map JSON properties to Java object fields.
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public List<DialogueEntry> getDialogue() { return dialogue; }
+    public void setDialogue(List<DialogueEntry> dialogue) { this.dialogue = dialogue; }
+
+    public String getBackgroundImage() { return backgroundImage; }
+    public void setBackgroundImage(String backgroundImage) { this.backgroundImage = backgroundImage; }
+
+    public SpriteInfo getBackgroundSprite() { return backgroundSprite; }
+    public void setBackgroundSprite(SpriteInfo backgroundSprite) { this.backgroundSprite = backgroundSprite; }
+
+    public CharacterSpriteInfo getCharacterSprite() { return characterSprite; }
+    public void setCharacterSprite(CharacterSpriteInfo characterSprite) { this.characterSprite = characterSprite; }
+    
+    public List<InteractiveObjectInfo> getObjects() { return objects; }
+    public void setObjects(List<InteractiveObjectInfo> objects) { this.objects = objects; }
+
+    public List<ChoiceData> getChoices() { return choices; }
+    public void setChoices(List<ChoiceData> choices) { this.choices = choices; }
+
+    public String getAutoTransitionTo() { return autoTransitionTo; }
+    public void setAutoTransitionTo(String autoTransitionTo) { this.autoTransitionTo = autoTransitionTo; }
+
+    public String getOutcome() { return outcome; }
+    public void setOutcome(String outcome) { this.outcome = outcome; }
+    
+    public String getBackgroundMusic() { return backgroundMusic; }
+    public void setBackgroundMusic(String backgroundMusic) { this.backgroundMusic = backgroundMusic; }
+
+    public String getAction() { return action; }
+    public void setAction(String action) { this.action = action; }
+
+    public String getNextSceneIdIfNameSet() { 
+        return nextSceneIdIfNameSet;
+    }
+
+    public void setNextSceneIdIfNameSet(String nextSceneIdIfNameSet) { 
+        this.nextSceneIdIfNameSet = nextSceneIdIfNameSet;
+    }
+
+    public String getEndingTitle() 
+    {
+    return endingTitle;
+    }
+
+    public void setEndingTitle(String endingTitle) 
+    
+    {
+    this.endingTitle = endingTitle;
+    }
+    // poor mans bug
+    @Override
+    public String toString() {
+        return "SceneData{" +
+               "id='" + id + '\'' +
+               ", dialogueCount=" + (dialogue != null ? dialogue.size() : 0) +
+               ", backgroundImage='" + backgroundImage + '\'' +
+               ", backgroundSpritePath=" + (backgroundSprite != null ? backgroundSprite.getPath() : "null") +
+               ", characterSpriteId=" + (characterSprite != null ? characterSprite.getId() : "null") +
+               ", objectCount=" + (objects != null ? objects.size() : 0) +
+               ", choiceCount=" + (choices != null ? choices.size() : 0) +
+               ", autoTransitionTo='" + autoTransitionTo + '\'' +
+               ", outcome='" + outcome + '\'' +
+               ", backgroundMusic='" + backgroundMusic + '\'' +
+               ", action='" + action + '\'' +
+               '}';
+    }
 }

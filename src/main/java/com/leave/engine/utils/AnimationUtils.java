@@ -154,6 +154,6 @@ public class AnimationUtils {
         if (label.getUserData() instanceof String) {
             label.setText((String) label.getUserData());
         }
-        // else, if no user data or wrong type, it keeps the current text.
+        
     }
 }

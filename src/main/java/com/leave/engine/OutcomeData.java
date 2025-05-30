@@ -1,15 +1,15 @@
 package com.leave.engine;
 
-import com.fasterxml.jackson.annotation.JsonProperty; // Good for explicit mapping
+import com.fasterxml.jackson.annotation.JsonProperty; 
 
 public class OutcomeData {
-    @JsonProperty("message") // Explicitly map JSON key "message" to this field
+    @JsonProperty("message") 
     private String message;
 
-    @JsonProperty("nextSceneId") // Explicitly map JSON key "nextSceneId" to this field
+    @JsonProperty("nextSceneId") 
     private String nextSceneId;
 
-    // Default constructor needed by Jackson for deserialization
+    
     public OutcomeData() {}
 
     // Getters

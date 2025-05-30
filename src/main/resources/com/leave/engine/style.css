@@ -7,6 +7,87 @@
     -fx-text-fill: #A0A0A0; /* Muted text color for general labels */
 }
 
+.dialogue-box { /* Style for the VBox containing dialogue */
+    -fx-background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    -fx-background-radius: 10;
+    /* -fx-border-color: #cccccc; */
+    /* -fx-border-width: 1; */
+    /* -fx-border-radius: 10; */
+}
+
+.dialogue-hud-container {
+    /* -fx-background-color: rgba(50,30,20,0.7); /* Optional: for debugging layout */
+}
+
+.dialogue-main-box {
+    -fx-background-color: #3c070761; /* Khaki - Stardew-like tan */
+    -fx-border-color: #e95757; /* SaddleBrown - dark brown border */
+    -fx-border-width: 4px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-opacity: 0.9; 
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0.5, 2, 2);
+}
+.choice-button {
+    -fx-background-color: blue;
+    -fx-text-fill: yellow;
+    -fx-font-size: 20px;
+    -fx-padding: 10px;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+}
+.dialogue-text {
+    -fx-font-family: "Your Pixel Font", "Verdana", sans-serif; /* Use a pixel font if you have one */
+    -fx-font-size: 18px; /* Adjust */
+    -fx-text-fill: #3A1D0A; /* Dark brown text */
+}
+
+.dialogue-portrait-box {
+    -fx-background-color: #DEB887; /* BurlyWood - lighter wood color */
+    -fx-border-color: #8B4513; /* SaddleBrown */
+    -fx-border-width: 3px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.5, 1, 1);
+}
+
+.speaker-portrait-image {
+    -fx-border-color: #A0522D; /* Sienna - inner border for portrait */
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(one-pass-box , #505050, 5,0.0,1,1);
+}
+
+.speaker-name-plate {
+    -fx-background-color: #c10b0b73; /* BlanchedAlmond - scroll-like color */
+    -fx-border-color: #000000; /* DarkGoldenrod */
+    -fx-border-width: 1px;
+    -fx-padding: 3px 10px;
+    -fx-font-family: "Your Pixel Font", "Verdana", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #3A1D0A;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.choices-container {
+    -fx-background-color: rgba(0,0,0,0.6); /* semi-transparent overlay when choices are up */
+    -fx-padding: 20px;
+}
+
+.choice-button {
+    -fx-background-color: #f08c8c;
+    -fx-text-fill: #3A1D0A;
+    -fx-font-family: "Your Pixel Font", "Verdana", sans-serif;
+    -fx-font-size: 16px;
+    -fx-border-color: #8B4513;
+    -fx-border-width: 2px;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+.choice-button:hover {
+    -fx-background-color: hsl(0, 100%, 54%);
+}
 .spotlight-circle {
     -fx-fill: radial-gradient(
         center 50% 50%,    
@@ -41,6 +122,29 @@
 .label {
     -fx-font-family: "Arial", sans-serif;
     -fx-text-fill: white; /* << KEY CHANGE: Default label text to white */
+}
+
+.dialogue-box { /* Style for the VBox containing dialogue */
+    -fx-background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    -fx-background-radius: 10;
+    /* -fx-border-color: #cccccc; */
+    /* -fx-border-width: 1; */
+    /* -fx-border-radius: 10; */
+}
+
+.dialogue-text {
+    -fx-font-size: 20px; /* Increase font size */
+    -fx-text-fill: white;
+    -fx-font-family: "Le Mano"; /* Specify your game font */
+    -fx-padding: 5px;
+}
+
+.speaker-name-label {
+    -fx-font-size: 22px; /* Slightly larger or different style for speaker */
+    -fx-text-fill: #0b0a02; /* Example: Gold color for speaker */
+    -fx-font-weight: bold;
+    -fx-font-family: "Le Mano"; /* Or your main menu font */
+    -fx-padding: 0 0 0 5px; /* Padding only on left if speaker name is on its own line */
 }
 
 
@@ -101,6 +205,36 @@
 }
 
 
+/* style.css */
+
+.endingTitleLabel {
+    -fx-font-size: 48px; 
+    -fx-font-family: "Le", Gadget, sans-serif;
+    -fx-text-fill: white; 
+    -fx-font-weight: bold;
+    -fx-padding: 20px; 
+    -fx-background-radius: 10px;
+    -fx-background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0.5, 2, 2); /* Drop shadow for better readability */
+    -fx-alignment: center; 
+    -fx-text-alignment: center;
+}
+/* the exit */
+.ending-exit-button {
+    -fx-font-family: "Le Mano", "Arial", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-background-color: #400000;
+    -fx-border-color: #200000;
+    -fx-border-width: 1px;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+}
+
+.ending-exit-button:hover {
+    -fx-background-color: #600000;
+}
 #characterDisplayPane {
     -fx-padding: 20px;
 }

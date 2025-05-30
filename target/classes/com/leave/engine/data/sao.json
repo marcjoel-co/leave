@@ -1,66 +1,156 @@
 {
   "gameTitle": "The Night Shift",
-  "startScene": "intro_1",
+  "startScene": "intro_playerName",
   "playerNamePlaceholder": "{playerName}",
   "scenes": {
-    "intro_1": {
-      "text": "*Yawn* “11 pm already..” you get up to get ready for your night shift work at a local convenient store. You take a shower, brush your teeth eat your dinner and say goodbye to your family and your dog you have had since you were 12. As a fresh grad 23 year old, you always knew that it was going to be hard finding a job. However, you never expected it to be so hard that you had to stay working at a convenient store for almost a year trying while also trying to find a stable job. This does not stop you though, you know to yourself you’ll get through this.",
+    "intro_playerName": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "Yawn “11 pm already..” you get up to get ready for your night shift work at a local convenient store." },
+        { "speaker": "Narrator", "line": "You take a shower, brush your teeth eat your dinner and say goodbye to your family and your dog you have had since you were 12." },
+        { "speaker": "Narrator", "line": "As a fresh grad 23 year old, you always knew that it was going to be hard finding a job. However, you never expected it to be so hard that you had to stay working at a convenient store for almost a year trying while also trying to find a stable job." },
+        { "speaker": "{playerName}", "line": "(This does not stop me though, I know I’ll get through this.)", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png" },
+        { "speaker": "Narrator", "line": "As you reflect about life, you didn’t notice that you’ve reach the convenient store." },
+        { "speaker": "playerName", "line": "...", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png" }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/night_prep_bgm.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/bedroom.png",
       "autoTransitionTo": "intro_2"
     },
     "intro_2": {
-      "text": "As you reflect about life, you didn’t notice that you’ve reach the convenient store. You are greeted with by your co-worker at the cashier restocking shelves and the security guard sitting by the door playing his game to pass the time. “Hey {playerName}, have you seen Shelby anywhere?” your co-worker asks you. “No, why?” you answer. “Did you not work with her during the night shift last night?” he asks. “No, it was my day-off, why what happened?” you answer. “Apparently she didn’t go home and the parents are worried sick. I hope she’s okay tho, she’s only 26 ” he says. You brush it off as just one of those “run-away rebels” young adult normally do when they have freedom and money.",
+      "dialogue": [
+        { "speaker": "Narrator", "line": "You are greeted by your co-worker at the cashier restocking shelves and the security guard sitting by the door playing his game to pass the time." },
+        { "speaker": "Co-worker", "line": "Hey {playerName}, have you seen Shelby anywhere?", "portraitPath": "/com/leave/engine/images/characters/portraits/coworker.png" },
+        { "speaker": "{playerName}", "line": "No, why?", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png"},
+        { "speaker": "Co-worker", "line": "Did you not work with her during the night shift last night?", "portraitPath": "/com/leave/engine/images/characters/portraits/coworker.png" },
+        { "speaker": "{playerName}", "line": "No, it was my day-off. Why, what happened?", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png"},
+        { "speaker": "Co-worker", "line": "Apparently she didn’t go home and the parents are worried sick. I hope she’s okay though, she’s only 26.", "portraitPath": "/com/leave/engine/images/characters/portraits/coworker.png" },
+        { "speaker": "Narrator", "line": "You brush it off as just one of those “run-away rebels” young adults normally do when they have freedom and money." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/store_ambience_calm.wav",
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/exterior7_11.png",
+          "frameWidth": 500, "frameHeight": 300,"cols": 2,"totalFrames": 2,"fps": 1.5,"loop": true
+      },
       "autoTransitionTo": "store_encounter_1"
     },
     "store_encounter_1": {
-      "text": "Time passes and you’ve encountered many customers, just another normal boring night. *Door opens*. You look to see a man in a full business attire and a eerie mask. However, you greet the man with a smile as he just stares at you then leaves. “What was that all about” you ask the guard. “Don’t worry {playerName}. He’s been coming very often, don’t be scared though I’m here to protect you”. “Thanks” you say. “Welp I’m gonna go smoke, I’ll be right back”. “Hey uhm {playerName}, can you do me a favor?” your co-worker asks. “What is it?” You ask. “Can you cover for me for an hour? My head is killing me” he asks. “Sure, go rest” you say.",
+      "dialogue": [
+        { "speaker": "Narrator", "line": "Time passes and you’ve encountered many customers, just another normal boring night." },
+        { "speaker": "Narrator", "line": "Door opens. You look to see a man in a full business attire and an eerie mask." },
+        { "speaker": "Narrator", "line": "However, you greet the man with a smile as he just stares at you then leaves." },
+        { "speaker": "{playerName}", "line": "What was that all about?", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png" },
+        { "speaker": "Guard", "line": "Don’t worry {playerName}. He’s been coming very often, don’t be scared though I’m here to protect you.", "portraitPath": "/com/leave/engine/images/characters/portraits/guard.png" },
+        { "speaker": "{playerName}", "line": "Thanks.", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png" },
+        { "speaker": "Guard", "line": "Welp I’m gonna go smoke, I’ll be right back.", "portraitPath": "/com/leave/engine/images/characters/portraits/guard.png" },
+        { "speaker": "Narrator", "line": "The guard leaves." },
+        { "speaker": "Co-worker", "line": "Hey uhm {playerName}, can you do me a favor?", "portraitPath": "/com/leave/engine/images/characters/portraits/coworker.png" },
+        { "speaker": "{playerName}", "line": "What is it?", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png" },
+        { "speaker": "Co-worker", "line": "Can you cover for me for an hour? My head is killing me.", "portraitPath": "/com/leave/engine/images/characters/portraits/coworker.png" },
+        { "speaker": "{playerName}", "line": "Sure, go rest.", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png" }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/store_ambience_calm.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/interior.png",
+      "characterSprite": { "id": "maskedMan_brief", "path": "/com/leave/engine/images/characters/masked_man_staring_sheet.png", "frameWidth": 70, "frameHeight": 130, "cols": 2, "totalFrames": 2, "fps": 0.5, "loop": true, "visibleInitially": false },
       "autoTransitionTo": "store_encounter_2"
     },
     "store_encounter_2": {
-      "text": "Time goes by and it’s now 3 am. *Ding* as the door opened, it was the same guy with the mask. He’s staring at you again, not moving an inch. “Good morning sir, how may I help you” you muttered frozen still and scared. You look around to see where the guard is and he is no where to be seen. *Spray* he sprays something in your face as you pass out almost immediately.",
+      "dialogue": [
+        { "speaker": "Narrator", "line": "Time goes by and it’s now 3 am. Ding." },
+        { "speaker": "Narrator", "line": "As the door opened, it was the same guy with the mask. He’s staring at you again, not moving an inch." },
+        { "speaker": "{playerName}", "line": "Good morning sir, how may I help you…", "style": "muttered_scared", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png" },
+        { "speaker": "Narrator", "line": "You look around to see where th e guard is and he is nowhere to be seen." },
+        { "speaker": "Narrator", "line": "Spray He sprays something in your face as you pass out almost immediately." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/store_ambience_tense.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/dark_convience_store.png",
+      "characterSprite": { "id": "maskedMan_attack", "path": "/com/leave/engine/images/characters/maskGuy.png", "frameWidth": 550, "frameHeight": 750, "cols": 1, "totalFrames": 1, "fps": 1, "loop": false },
       "autoTransitionTo": "wake_up"
     },
     "wake_up": {
-      "text": "You wake up in a dark room made of bricks that felt like the 1800s. “*Groan* my head hurts”.",
+      "dialogue": [
+        { "speaker": "Narrator", "line": "You wake up in a dark room made of bricks that felt like the 1800s." },
+        { "speaker": "{playerName}", "line": "Groan my head hurts.", "portraitPath": "/com/leave/engine/images/characters/portraits/player_placeholder.png" }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/creepy_basement_ambience.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/brickroom.png",
       "choices": [
         { "text": "Scream for help", "nextSceneId": "scream_result" },
         { "text": "Stay quiet and listen", "nextSceneId": "stay_quiet_1" }
       ]
     },
     "scream_result": {
-      "text": "The killer heard you and killed you.",
+      "dialogue": [{ "speaker": "Narrator", "line": "The killer heard you and killed you." }],
+      "backgroundMusic": "/com/leave/engine/data/audio/creepy_basement_ambience.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/brickroom.png",
       "outcome": "YOU_DIED_SCREAM"
     },
     "stay_quiet_1": {
-      "text": "You stay quiet, listening for any noises that could help. As your eyes adjust in the dark you see the door. You open the door slowly and you see a brick hallway lit by lanterns. You keep walking trying to find the way out until you saw a guy.",
+      "dialogue": [
+        { "speaker": "Narrator", "line": "You stay quiet, listening for any noises that could help. As your eyes adjust in the dark you see the door." },
+        { "speaker": "Narrator", "line": "You open the door slowly and you see a brick hallway lit by lanterns. You keep walking trying to find the way out until you saw a guy." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/tense_hallway_探索.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/hallway_with_guy.png",
       "choices": [
         { "text": "Ask the guy for help", "nextSceneId": "ask_guy_help" },
         { "text": "Ignore the guy and keep moving", "nextSceneId": "ignore_guy_1" }
       ]
     },
     "ask_guy_help": {
-      "text": "You approach the guy. You see his uniform... *gasp* he’s part of the killers! But then he shushes you and quickly leads you to an exit. LUCKY! He was an imposter helping victims escape.",
+      "dialogue": [
+        { "speaker": "Narrator", "line": "You approach the guy. You see his uniform... gasp he’s part of the killers!" },
+        { "speaker": "Imposter Guard", "line": "Shhh!", "portraitPath": "/com/leave/engine/images/characters/portraits/guard.png" },
+        { "speaker": "Narrator", "line": "He quickly leads you to an exit. LUCKY! He was an imposter helping victims escape." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/hopeful_escape_moment.wav",
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/street_animated_lightning.png","frameWidth": 500, "frameHeight": 300,"cols": 7,"totalFrames": 7,"fps": 1.5,"loop": true
+      },
+      "characterSprite": { "id": "imposterGuard_static", "path": "/com/leave/engine/images/characters/guard.png", "frameWidth": 64, "frameHeight": 128, "cols": 1, "totalFrames": 1, "fps": 1.0, "loop": false },
       "outcome": "ESCAPED_IMPOSTER_HELP"
     },
     "ignore_guy_1": {
-      "text": "You decide to ignore the guy and move forward to a different hallway where you see two items on a dusty table.",
+      "dialogue": [{ "speaker": "Narrator", "line": "You decide to ignore the guy and move forward to a different hallway where you see two items on a dusty table." }],
+      "backgroundMusic": "/com/leave/engine/data/audio/tense_hallway_探索.wav",
+      
+      "objects": [
+        { "id": "shovel", "name": "Shovel", "imagePath": "/com/leave/engine/images/items/placeholder_shovel.png", "x": 200, "y": 400},
+        { "id": "key_item", "name": "Old Key", "imagePath": "/com/leave/engine/images/items/placeholder_key.png", "x": 500, "y": 400}
+      ],
       "choices": [
-        { "text": "Take the shovel", "nextSceneId": "take_shovel" },
-        { "text": "Take the key", "nextSceneId": "take_key" }
+        { "text": "Take the shovel", "nextSceneId": "take_shovel", "action": "ADD_ITEM_SHOVEL"},
+        { "text": "Take the key", "nextSceneId": "take_key", "action": "ADD_ITEM_KEY"}
       ]
     },
     "take_key": {
-      "text": "You pocket the old, rusty key and keep moving. Suddenly, you see a disfigured monster lumbering towards you. Without any protection, it chases you down a corridor! You frantically try the key on a nearby door. It unlocks! You rush in, slamming it shut, only to find a gigantic spider a-la Shelob descending from the ceiling. It jumps on your face and eats you.",
+      "dialogue": [
+        { "speaker": "Narrator", "line": "You pocket the old, rusty key and keep moving. Suddenly, you see a disfigured monster lumbering towards you." },
+        { "speaker": "Narrator", "line": "Without any protection, it chases you down a corridor! You frantically try the key on a nearby door. It unlocks!" },
+        { "speaker": "Narrator", "line": "You rush in, slamming it shut, only to find a gigantic spider descending from the ceiling. It jumps on your face and eats you." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/chase_then_doom.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_corridor.png",
+      "characterSprite": { "id": "disfiguredMonster_static", "path": "/com/leave/engine/images/characters/bleeding_monster.png", "frameWidth": 100, "frameHeight": 100, "cols": 1, "totalFrames": 1, "fps": 1.0, "loop": false },
       "outcome": "YOU_DIED_SPIDER"
     },
     "take_shovel": {
-      "text": "You pick up the sturdy shovel. It feels heavy but reassuring. You keep moving until you see a disfigured monster blocking your path. You bash the monster’s head with the shovel with all your might! It collapses, bleeding profusely. You keep going forward and you see a door that looks like an exit. It feels suspicious...",
+      "dialogue": [
+        { "speaker": "Narrator", "line": "You pick up the sturdy shovel. It feels heavy but reassuring." },
+        { "speaker": "Narrator", "line": "You keep moving until you see a disfigured monster blocking your path. You bash the monster’s head with the shovel with all your might! It collapses, bleeding profusely." },
+        { "speaker": "Narrator", "line": "You keep going forward and you see a door that looks like an exit. It feels suspicious..." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/combat_then_suspense.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_corridor_encounter.png",
+      "characterSprite": { "id": "disfiguredMonster_dead_static", "path": "/com/leave/engine/images/characters/bleeding monster.png" },
       "choices": [
         { "text": "Try to open the exit door", "nextSceneId": "open_exit_door" },
         { "text": "Ignore the door and keep searching", "nextSceneId": "ignore_exit_door" }
       ]
     },
     "open_exit_door": {
-      "text": "You try the handle. It's locked! You need a key. Frustrated, you start searching the nearby area again. You find three doors, distinguished by color: red, blue, and yellow.",
+      "dialogue": [{ "speaker": "Narrator", "line": "You try the handle. It's locked! You need a key. Frustrated, you start searching the nearby area again. You find three doors, distinguished by color: red, blue, and yellow." }],
+      "backgroundMusic": "/com/leave/engine/data/audio/puzzle_room_bgm.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/3door.png",
       "choices": [
         { "text": "Enter the red door", "nextSceneId": "red_door" },
         { "text": "Enter the blue door", "nextSceneId": "blue_door" },
@@ -68,47 +158,135 @@
       ]
     },
     "red_door": {
-      "text": "You open the red door and step through, only to find the floor missing. You fall into a 10-foot drop and land in a pit of fire, burning to death.",
+      "dialogue": [{ "speaker": "Narrator", "line": "You open the red door and step through, only to find the floor missing. You fall into a 10-foot drop and land in a pit of fire, burning to death." }],
+      "backgroundMusic": "/com/leave/engine/data/audio/intense_fail_sfx.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_fire_pit.png",
       "outcome": "YOU_DIED_FIRE_PIT"
     },
     "yellow_door": {
-      "text": "You open the yellow door and see sunlight! You start running towards it, hope surging in your chest. Suddenly, you feel a sharp pain in your back as a knife is plunged into you. You die just meters from freedom.",
+      "dialogue": [{ "speaker": "Narrator", "line": "You open the yellow door and see sunlight! You start running towards it, hope surging in your chest. Suddenly, you feel a sharp pain in your back as a knife is plunged into you. You die just meters from freedom." }],
+      "backgroundMusic": "/com/leave/engine/data/audio/false_hope_sfx.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/fire_exit.png",
       "outcome": "YOU_DIED_KNIFE_BACK"
     },
     "blue_door": {
-      "text": "You cautiously open the blue door. Inside, on a small table, you find a key! This must be it. You take it back to the suspicious exit door, it fits, and you easily escape!",
+      "dialogue": [{ "speaker": "Narrator", "line": "You cautiously open the blue door. Inside, on a small table, you find a key! This must be it. You take it back to the suspicious exit door, it fits, and you easily escape!" }],
+      "backgroundMusic": "/com/leave/engine/data/audio/success_key_found.wav",
+       "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/hallwayexit.png",
+          "frameWidth": 700, "frameHeight": 500,"cols": 1,"totalFrames": 10,"fps": 1.5,"loop": false
+      },
+      "objects": [{ "id": "final_key", "name": "Exit Key", "imagePath": "/com/leave/engine/images/items/placeholder_exit_key.png", "x": 300, "y": 300}],
       "outcome": "ESCAPED_WITH_KEY"
     },
     "ignore_exit_door": {
-      "text": "You decide the door is too risky and keep on searching for another way out. You see an old lady also looking lost and trying to find her way out.",
+      "dialogue": [{ "speaker": "Narrator", "line": "You decide the door is too risky and keep on searching for another way out. You see an old lady also looking lost and trying to find her way out." }],
+      "backgroundMusic": "/com/leave/engine/data/audio/eerie_corridor_wander.wav",
+      "backgroundSprite": {
+          "path": "/com/leave/engine/images/backgrounds/hallway_with_lantern.png",
+          "frameWidth": 700, "frameHeight": 500,"cols": 1,"totalFrames": 3,"fps": 1.5,"loop": true
+      },
       "choices": [
         { "text": "Help the old lady", "nextSceneId": "help_old_lady" },
         { "text": "Ignore her, she might be a trap", "nextSceneId": "ignore_old_lady" }
       ]
     },
     "help_old_lady": {
-      "text": "You approach the old lady to offer help. As you get closer, she smiles, but her eyes are cold. She was part of the killers and swiftly kills you.",
+      "dialogue": [{ "speaker": "Narrator", "line": "You approach the old lady to offer help. As you get closer, she smiles, but her eyes are cold. She was part of the killers and swiftly kills you." }],
+      "backgroundMusic": "/com/leave/engine/data/audio/betrayal_sfx.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_endless_corridors.png",
+      "characterSprite": { "id": "killerOldLady_placeholder", "path": "/com/leave/engine/images/characters/old.png", "frameWidth": 550, "frameHeight": 700, "cols": 1, "totalFrames": 1, "fps": 1.0, "loop": false },
       "outcome": "YOU_DIED_OLD_LADY"
     },
     "ignore_old_lady": {
-      "text": "You decide not to risk it and move past the old lady. The corridors seem endless. You eventually lose hope and suddenly faint from exhaustion and despair.",
+      "dialogue": [{ "speaker": "Narrator", "line": "You decide not to risk it and move past the old lady. The corridors seem endless. You eventually lose hope and suddenly faint from exhaustion and despair." }],
+      "backgroundMusic": "/com/leave/engine/data/audio/despair_ambience.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_endless_corridors_fading.png",
       "outcome": "YOU_DIED_DESPAIR"
     },
-    "outro_escaped": {
-        "text": "The police start an investigation based on your testimony and find out that it was an underground business where they sold organs and human parts. You went home safe and well, relieved you survived."
+    "ending_good_imposterHelp": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "Thanks to the brave individual who risked their own safety, you find yourself blinking in the pre-dawn light, free from the nightmare."},
+        { "speaker": "Narrator", "line": "The police, guided by your testimony, later raid the premises, uncovering a horrifying organ trafficking ring. Many are arrested, and other victims are found."},
+        { "speaker": "Narrator", "line": "Though the scars remain, you rebuild your life, forever grateful for the unexpected ally. The night shift will never be the same." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_good.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/theexit.png",
+      "endingTitle": "FREEDOM'S DAWN (Imposter's Aid)"
     },
-    "outro_died": {
-        "text": "Your poor body was sold in the black market by the killers as their business kept on running. You may not have been given justice, but maybe soon…"
+    "ending_good_keyFound": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "The key turns, the heavy door groans open, and you stumble out into the cool night air, the horrors of the brick maze behind you." },
+        { "speaker": "Narrator", "line": "You alert the authorities immediately. Their investigation reveals the full, sickening extent of the operation within those walls. Justice begins its slow march." },
+        { "speaker": "Narrator", "line": "You survived through cunning and a bit of luck. The experience changes you, but you carry on, stronger." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_good.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/theexit.png", 
+      "endingTitle": "SURVIVAL (The Right Key)"
+    },
+    "ending_bad_scream": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "Your desperate screams echoed briefly in the oppressive darkness, quickly silenced." },
+        { "speaker": "Narrator", "line": "Another victim claimed by the shadows of the night shift operation. Your disappearance becomes a local mystery, a cautionary tale whispered among late-night workers." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_bad.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/brickroom.png", 
+      "endingTitle": "LOST TO THE SHADOWS (Fatal Scream)"
+    },
+    "ending_bad_spider": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "The key promised escape, but delivered you only to a more monstrous fate. Your final moments were a skittering, eight-legged horror." },
+        { "speaker": "Narrator", "line": "Your remains would not be found for a long, long time, another secret swallowed by that cursed place." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_bad.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/brickroom.png",
+      "endingTitle": "SPIDER'S PREY (Misplaced Trust)"
+    },
+    "ending_bad_firePit": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "The red door, a cruel deception. Your world ended in a searing inferno, your cries unheard." },
+        { "speaker": "Narrator", "line": "Another soul consumed, leaving only ashes and unanswered questions." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_bad.wav",
+      
+      "endingTitle": "ASHES TO ASHES (Red Door's Deceit)"
+    },
+    "ending_bad_knifeBack": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "Sunlight was a mirage, freedom a fleeting dream shattered by cold steel. You collapsed, so close yet worlds away from safety." },
+        { "speaker": "Narrator", "line": "Your hope was your undoing in that final, desperate moment." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_bad.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_false_exit.png",
+      "endingTitle": "FALSE DAWN (Betrayed Hope)"
+    },
+    "ending_bad_oldLady": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "Kindness met with cruelty. The old woman's smile hid a predator's heart. Your attempt to help was your last mistake." },
+        { "speaker": "Narrator", "line": "They say the most dangerous are those who seem harmless." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/ending_theme_bad.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_endless_corridors.png",
+      "endingTitle": "GRANDMOTHER'S GUILE (Deceptive Aid)"
+    },
+    "ending_bad_despair": {
+      "dialogue": [
+        { "speaker": "Narrator", "line": "The endless corridors mirrored the void in your heart. Hope extinguished, your body and spirit finally gave way to the crushing despair." },
+        { "speaker": "Narrator", "line": "You became another lost echo in the labyrinth." }
+      ],
+      "backgroundMusic": "/com/leave/engine/data/audio/despair_ambience.wav",
+      "backgroundImage": "/com/leave/engine/images/backgrounds/placeholder_endless_corridors_fading.png",
+      "endingTitle": "LOST IN DESPAIR :("
     }
   },
-  "outcomes": {
-    "YOU_DIED_SCREAM": { "message": "Your screams attracted unwanted attention. You died.", "nextSceneId": "outro_died"},
-    "ESCAPED_IMPOSTER_HELP": { "message": "Trusting the strange 'killer' paid off! You escaped!", "nextSceneId": "outro_escaped"},
-    "YOU_DIED_SPIDER": { "message": "That key led to a bigger problem. You died.", "nextSceneId": "outro_died"},
-    "ESCAPED_WITH_KEY": { "message": "The blue door held the true key to freedom! You escaped!", "nextSceneId": "outro_escaped"},
-    "YOU_DIED_FIRE_PIT": { "message": "The red door was a fiery trap. You died.", "nextSceneId": "outro_died"},
-    "YOU_DIED_KNIFE_BACK": { "message": "So close, yet so far... That sunlight was a lie. You died.", "nextSceneId": "outro_died"},
-    "YOU_DIED_OLD_LADY": { "message": "Never trust a sweet old lady in a murder basement. You died.", "nextSceneId": "outro_died"},
-    "YOU_DIED_DESPAIR": { "message": "You gave up hope and succumbed to the darkness. You died.", "nextSceneId": "outro_died"}
+  "outcomes": { 
+    "YOU_DIED_SCREAM": { "message": "Your screams attracted unwanted attention. You died.", "nextSceneId": "ending_bad_scream"},
+    "ESCAPED_IMPOSTER_HELP": { "message": "Trusting the strange 'killer' paid off! You escaped!", "nextSceneId": "ending_good_imposterHelp"},
+    "YOU_DIED_SPIDER": { "message": "That key led to a bigger problem. You died.", "nextSceneId": "ending_bad_spider"},
+    "ESCAPED_WITH_KEY": { "message": "The blue door held the true key to freedom! You escaped!", "nextSceneId": "ending_good_keyFound"},
+    "YOU_DIED_FIRE_PIT": { "message": "The red door was a fiery trap. You died.", "nextSceneId": "ending_bad_firePit"},
+    "YOU_DIED_KNIFE_BACK": { "message": "So close, yet so far... That sunlight was a lie. You died.", "nextSceneId": "ending_bad_knifeBack"},
+    "YOU_DIED_OLD_LADY": { "message": "Never trust a sweet old lady in a murder basement. You died.", "nextSceneId": "ending_bad_oldLady"},
+    "YOU_DIED_DESPAIR": { "message": "You gave up hope and succumbed to the darkness. You died.", "nextSceneId": "ending_bad_despair"}
   }
 }

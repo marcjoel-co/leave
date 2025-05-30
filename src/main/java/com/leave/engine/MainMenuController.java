@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static com.leave.engine.utils.AnimationUtils.createBlinkTimeline; // Not strictly needed if using direct null checks
+import static com.leave.engine.utils.AnimationUtils.createBlinkTimeline;
 import static com.leave.engine.utils.AnimationUtils.createFadeTransition;
 import static com.leave.engine.utils.AnimationUtils.createPauseTransition;
 import com.leave.engine.utils.SpriteSheetAnimator;
@@ -16,8 +16,9 @@ import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.Initializable; // Import Alert
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -29,14 +30,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-/*
- * this is the main menu itself where the title game, character selection
- * is shown and displayed
- */
-
 public class MainMenuController implements Initializable {
 
-    //--- FXML Injections: UI Elements from gameEntry.fxml ---
+    //--- FXML Injections ---
     @FXML private StackPane rootStackPane;
     @FXML private ImageView backgroundThunderImageView;
     @FXML private StackPane titleGroup;
@@ -48,13 +44,12 @@ public class MainMenuController implements Initializable {
     @FXML private Circle backgroundSpotlightCircle;
     @FXML private Button characterChangeButton;
     @FXML private Button newGameButton;
-    @FXML private Button loadGameButton;
+    @FXML private Button loadGameButton; // Currently Quit
     @FXML private VBox menuButtonBox;
     @FXML private VBox centerContentVBox;
     @FXML private Label tradeMarc;
 
-
-    //--- Logo Animation Configuration ---
+    //logo
     private static final String LOGO_SPRITE_SHEET_PATH = "/com/leave/engine/images/LogoIntroAnim.png";
     private static final int LOGO_FRAME_WIDTH = 1080;
     private static final int LOGO_FRAME_HEIGHT = 560;
@@ -62,77 +57,83 @@ public class MainMenuController implements Initializable {
     private static final int LOGO_TOTAL_FRAMES = 32;
     private static final double LOGO_FPS = 10.0;
     private SpriteSheetAnimator logoAnimator;
-    private boolean logoAnimationFinished = false;
-    private boolean skipLogoRequested = false;
+    private volatile boolean logoAnimationFinished = false; // Volatile for thread visibility
+    private volatile boolean skipLogoRequested = false;     // Volatile
 
-    
-    private static final String THUNDER_SPRITE_SHEET_PATH = "/com/leave/engine/images/background/thunder.png";
+    //thunder config
+    private static final String THUNDER_SPRITE_SHEET_PATH = "/com/leave/engine/images/backgrounds/thunder.png";
+    // ... (thunder animation constants) ...
     private static final int THUNDER_FRAME_WIDTH = 500;
     private static final int THUNDER_FRAME_HEIGHT = 300;
     private static final int THUNDER_NUM_COLS = 5;
     private static final int THUNDER_TOTAL_FRAMES = 5;
-    private static final double THUNDER_FPS = 1.0; // Slow FPS for a subtle background
+    private static final double THUNDER_FPS = 1.0;
     private SpriteSheetAnimator thunderAnimator;
-    private static final double VISIBLE_BACKGROUND_OPACITY = 0.7; // Opacity for stormy background when main menu is visible
+    private static final double VISIBLE_BACKGROUND_OPACITY = 0.7;
 
-    
+
+    //--- Character Selection Logic ---
     private CharacterManager characterManager;
     private int currentCharIndex = 0;
     private boolean isCharacterAnimating = false;
-    // No longer using contentNodewoSpotlight as we explicitly target containers or individual elements in handleCharacterChange
+    private volatile boolean mainMenuContentIsSetup = false; // Flag to ensure CharacterManager is ready
 
-    /*
-     * the method for the initializing components of the main menu scene
-     * and also the execution or display of graphic interfaces
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("MainMenuController initialize START");
-
-        //conditional statements for critial initialization errors
+        System.out.println("MainMenuController: initialize START");
         if (mainMenuGroup == null || titleGroup == null || rootStackPane == null) {
-            System.err.println("CRITICAL: Essential layout panes (mainMenuGroup, titleGroup, rootStackPane) are NULL. FXML linking issue?");
+            System.err.println("MainMenuController CRITICAL: Essential layout panes (mainMenuGroup, titleGroup, rootStackPane) are NULL. FXML linking issue?");
             return;
         }
-        if (backgroundSpotlightCircle == null) {
-            System.err.println("INFO: backgroundSpotlightCircle is NULL (might be okay if not critical or styled invisible initially).");
-        } else {
-            System.out.println("SUCCESS: backgroundSpotlightCircle was injected.");
+        // ... other FXML element null checks for robustness (optional but good)
+
+        
+        ensureMainMenuContentIsSetup();
+
+        
+        if (mainMenuGroup != null) {
+            mainMenuGroup.setOpacity(0.0);
+            mainMenuGroup.setMouseTransparent(true); // Prevent clicks
+        }
+        if (titleGroup != null) { 
+            titleGroup.setOpacity(1.0);
+            titleGroup.setMouseTransparent(false); // Can be clicked/interacted with if needed for skip
         }
 
-        //Inialized and played animations
+        // Disable menu buttons until main menu is fully set up and displayed
+        setMenuButtonsDisabled(true); // Explicitly disable at start
+
         setupAndPlayThunderAnimation();
         setupAndPlayLogoAnimation();
-
-        //Main menu display values
-        mainMenuGroup.setOpacity(0.0);
-        mainMenuGroup.setMouseTransparent(true);
-        titleGroup.setOpacity(1.0);
-        titleGroup.setMouseTransparent(false);
+        System.out.println("MainMenuController: initialize FINISHED");
     }
 
-    //initializes and plays thunder animation
+    private synchronized void ensureMainMenuContentIsSetup() {
+        if (!mainMenuContentIsSetup) {
+            setupMainMenuContent();
+        }
+    }
+
     private void setupAndPlayThunderAnimation() {
+        
         if (backgroundThunderImageView != null) {
             try {
                 thunderAnimator = new SpriteSheetAnimator(
                         backgroundThunderImageView, THUNDER_SPRITE_SHEET_PATH,
                         THUNDER_FRAME_WIDTH, THUNDER_FRAME_HEIGHT,
-                        THUNDER_NUM_COLS, THUNDER_TOTAL_FRAMES,
-                        THUNDER_FPS, true);
+                        THUNDER_NUM_COLS, THUNDER_TOTAL_FRAMES, THUNDER_FPS, true);
                 thunderAnimator.play();
-                System.out.println("Background stormy animation started (ImageView initially hidden).");
+                 System.out.println("MainMenuController: Thunder animation started.");
             } catch (IllegalArgumentException e) {
-                System.err.println("Error initializing SpriteSheetAnimator for stormy background: " + e.getMessage());
-                e.printStackTrace();
+                System.err.println("MainMenuController Error: initializing SpriteSheetAnimator for thunder: " + e.getMessage());
             }
         } else {
-            System.err.println("backgroundThunderImageView is null. Cannot play stormy animation.");
+            System.err.println("MainMenuController Error: backgroundThunderImageView is null. Cannot play thunder animation.");
         }
     }
 
-    //initializes and plays logo animation
     private void setupAndPlayLogoAnimation() {
+        System.out.println("MainMenuController: setupAndPlayLogoAnimation START");
         if (logoAnimationImageView != null) {
             try {
                 logoAnimationImageView.setFitWidth(LOGO_FRAME_WIDTH);
@@ -142,327 +143,399 @@ public class MainMenuController implements Initializable {
                 logoAnimator = new SpriteSheetAnimator(
                         logoAnimationImageView, LOGO_SPRITE_SHEET_PATH,
                         LOGO_FRAME_WIDTH, LOGO_FRAME_HEIGHT,
-                        LOGO_NUM_COLS, LOGO_TOTAL_FRAMES, LOGO_FPS, false);
+                        LOGO_NUM_COLS, LOGO_TOTAL_FRAMES, LOGO_FPS, false); // loop=false
+                System.out.println("MainMenuController: SpriteSheetAnimator for logo created with TotalFrames=" + LOGO_TOTAL_FRAMES);
 
                 logoAnimator.setOnFinished(() -> {
-                    logoAnimationFinished = true;
-                    if (!skipLogoRequested) {
-                        showPressKeyOrTransition();
-                    }
+                    Platform.runLater(() -> { // Ensure UI updates on JavaFX Application Thread
+                        System.out.println("MainMenuController: Logo animation ON_FINISHED callback.");
+                        logoAnimationFinished = true;
+                        if (!skipLogoRequested) {
+                            System.out.println("MainMenuController: Logo finished naturally, calling showPressKeyOrTransition.");
+                            showPressKeyOrTransition();
+                        } else {
+                            System.out.println("MainMenuController: Logo finished but was already skipped; transitionToMainMenu should have occurred.");
+                            // Safety check: if somehow menu isn't up, trigger transition.
+                            if (mainMenuGroup != null && mainMenuGroup.getOpacity() < 0.1) {
+                                transitionToMainMenu();
+                            }
+                        }
+                    });
                 });
                 logoAnimator.play();
-                System.out.println("Logo animation started.");
+                System.out.println("MainMenuController: Logo animation play() called.");
             } catch (IllegalArgumentException e) {
-                System.err.println("Error initializing SpriteSheetAnimator for logo: " + e.getMessage());
-                e.printStackTrace();
-                logoAnimationFinished = true;
-                transitionToMainMenu();
+                System.err.println("MainMenuController Error: initializing SpriteSheetAnimator for logo: " + e.getMessage());
+                logoAnimationFinished = true; // Still mark as finished to proceed
+                skipLogoRequested = true;     // Treat as skipped
+                transitionToMainMenu();       // Try to go directly to main menu
             }
         } else {
-            System.err.println("logoAnimationImageView is null. Cannot play logo animation.");
+            System.err.println("MainMenuController Error: logoAnimationImageView is null. Skipping logo animation.");
             logoAnimationFinished = true;
-            Platform.runLater(this::setupMainMenuContent);
-            Platform.runLater(this::fadeInMainMenuAndBackground);
+            skipLogoRequested = true;
+            transitionToMainMenu(); // Go directly to main menu if no logo view
         }
     }
 
-    //A method that will listen to any key input from user keyboard
     public void setupGlobalKeyListener() {
-        Scene scene = (rootStackPane != null) ? rootStackPane.getScene() : null;
-        if (scene == null && logoAnimationImageView != null) {
-            scene = logoAnimationImageView.getScene();
-        }
-        if (scene != null) {
-            scene.setOnKeyPressed(this::handleKeyPressToSkipLogo);
-            scene.getRoot().requestFocus();
-            System.out.println("Global key listener attached to scene.");
-        } else {
-            System.err.println("Cannot set up global key listener: Scene is not available.");
-        }
+        // Defer getting scene until it's more likely available, or App ensures it.
+        // This is often called by App after stage.show()
+        Platform.runLater(() -> { // Ensure it runs after scene might be ready
+            Scene scene = (rootStackPane != null) ? rootStackPane.getScene() : null;
+            if (scene == null && logoAnimationImageView != null) scene = logoAnimationImageView.getScene(); // Fallback
+            
+            if (scene != null) {
+                scene.setOnKeyPressed(this::handleKeyPressToSkipLogo);
+                System.out.println("MainMenuController: Global key listener for logo skip ATTACHED to scene.");
+            } else {
+                System.err.println("MainMenuController Warning: Cannot set up global key listener for logo skip: Scene is not available yet even after Platform.runLater.");
+                
+            }
+        });
     }
 
-    //A method to skip logo animation
     private void handleKeyPressToSkipLogo(KeyEvent event) {
-        if (skipLogoRequested || (mainMenuGroup != null && mainMenuGroup.getOpacity() > 0.1)) return;
-        skipLogoRequested = true;
-        if (logoAnimator != null && logoAnimator.isPlaying()) {
-            logoAnimator.stop();
-            System.out.println("Logo animation stopped by key press.");
+        System.out.println("MainMenuController: handleKeyPressToSkipLogo - Key: " + event.getCode());
+        if (mainMenuGroup != null && mainMenuGroup.getOpacity() > 0.1 && !mainMenuGroup.isMouseTransparent()) {
+            System.out.println("MainMenuController: handleKeyPressToSkipLogo - Main menu already visible and interactive. Ignoring further skips.");
+            return; // Main menu is already up and interactive, don't re-trigger.
         }
-        logoAnimationFinished = true;
-        showPressKeyOrTransition();
+
+        if (skipLogoRequested && logoAnimationFinished) {
+            // If logo was already marked as skipped AND finished (e.g. error path),
+            // this key press might be for interacting with the 'Press Key' label, or for menu itself.
+            // If "Press Key" label is visible, this press should make it transition.
+            if (pressKeyLabel != null && pressKeyLabel.isVisible()) {
+                System.out.println("MainMenuController: handleKeyPressToSkipLogo - 'Press Key' label visible. Transitioning to main menu.");
+                transitionToMainMenu(); // Transition now based on key press on "Press Key" label.
+            }
+            return; // Avoid reprocessing if already dealt with.
+        }
+        
+        if (skipLogoRequested) return; // Already processing a skip
+
+        skipLogoRequested = true;
+        logoAnimationFinished = true; // Mark as finished as we are skipping
+
+        if (logoAnimator != null && logoAnimator.isPlaying()) {
+            System.out.println("MainMenuController: handleKeyPressToSkipLogo - Stopping logo animator.");
+            logoAnimator.stop(); // Stop the visual animation
+        }
+
+        // Hide "Press Key" label if it was shown.
+        if (pressKeyLabel != null) pressKeyLabel.setVisible(false);
+
+        System.out.println("MainMenuController: handleKeyPressToSkipLogo - Logo skip requested. Transitioning to main menu.");
+        transitionToMainMenu(); // Skip logo and "Press Key" phase, go directly to menu.
     }
 
-    //transitions to next frame
     private void showPressKeyOrTransition() {
-        if (pressKeyLabel == null) {
-            transitionToMainMenu();
+        System.out.println("MainMenuController: showPressKeyOrTransition - skipLogoRequested=" + skipLogoRequested + ", logoAnimationFinished=" + logoAnimationFinished);
+
+        if (skipLogoRequested) { // If already skipped by a key press, transitionToMainMenu was called.
+            System.out.println("MainMenuController: showPressKeyOrTransition - Logo already skipped. Transition should be in progress.");
             return;
         }
-        if (skipLogoRequested || logoAnimationFinished) {
+
+        if (pressKeyLabel == null) {
+            System.err.println("MainMenuController: pressKeyLabel is null. Attempting direct transitionToMainMenu.");
+            transitionToMainMenu(); // Should not happen if FXML is correct
+            return;
+        }
+
+        if (logoAnimationFinished) { // Only if logo finished naturally (not skipped before this point)
+            System.out.println("MainMenuController: showPressKeyOrTransition - Logo finished naturally. Showing 'Press Key' label.");
             pressKeyLabel.setVisible(true);
             FadeTransition ft = createFadeTransition(pressKeyLabel, Duration.millis(500), 0.0, 1.0);
-            ft.setOnFinished(e -> {
-                if (skipLogoRequested) transitionToMainMenu();
-            });
+            // The key press will be handled by the global setOnKeyPressed via handleKeyPressToSkipLogo.
+            // That method will now see that logoAnimationFinished=true, skipLogoRequested=false initially,
+            // and then proceed to call transitionToMainMenu.
             ft.play();
-            System.out.println("'Press Key' label shown.");
         }
     }
 
-    //main menu transition
-    private void transitionToMainMenu() {
-        if (mainMenuGroup != null && mainMenuGroup.getOpacity() > 0.9) return;
-        System.out.println("Transitioning to main menu...");
-        setupMainMenuContent();
+    private synchronized void transitionToMainMenu() {
+        if (mainMenuGroup != null && mainMenuGroup.getOpacity() > 0.9 && !mainMenuGroup.isMouseTransparent()) {
+            System.out.println("MainMenuController: transitionToMainMenu - Main menu already fully visible and interactive. Skipping.");
+            return;
+        }
+        System.out.println("MainMenuController: transitionToMainMenu - Attempting to transition.");
 
-        FadeTransition fadeOutTitle = (titleGroup != null) ? createFadeTransition(titleGroup, Duration.millis(700), 1.0, 0.0) : null;
+        ensureMainMenuContentIsSetup(); // CRITICAL: Ensure CharacterManager is ready
+        if (!mainMenuContentIsSetup) {
+             System.err.println("MainMenuController CRITICAL in transitionToMainMenu: mainMenuContentIsSetup is still false after ensure! Cannot proceed to show menu.");
+             // Potentially show an error alert.
+            return;
+        }
+
+        // Proceed with UI transition
+        // Stop pressKeyLabel interactions if it was part of the flow
+        if (pressKeyLabel != null) {
+            pressKeyLabel.setOpacity(0.0); // Hide it quickly
+            pressKeyLabel.setVisible(false);
+        }
+
+
+        FadeTransition fadeOutTitle = null;
+        if (titleGroup != null && titleGroup.getOpacity() > 0.0) { // Only fade if visible
+            fadeOutTitle = createFadeTransition(titleGroup, Duration.millis(700), titleGroup.getOpacity(), 0.0);
+        }
+
+        Runnable showMainMenuRunnable = () -> {
+            if (titleGroup != null) titleGroup.setMouseTransparent(true);
+            if (mainMenuGroup != null) {
+                System.out.println("MainMenuController: Making mainMenuGroup mouse-transparent false (interactive).");
+                mainMenuGroup.setMouseTransparent(false); // MAKE MENU INTERACTIVE
+                setMenuButtonsDisabled(false);          // And enable buttons
+            }
+            fadeInMainMenuAndBackground();
+        };
 
         if (fadeOutTitle != null) {
-            fadeOutTitle.setOnFinished(event -> {
-                titleGroup.setMouseTransparent(true);
-                if (mainMenuGroup != null) mainMenuGroup.setMouseTransparent(false);
-                fadeInMainMenuAndBackground();
-            });
+            fadeOutTitle.setOnFinished(event -> showMainMenuRunnable.run());
             fadeOutTitle.play();
         } else {
-            if (mainMenuGroup != null) mainMenuGroup.setMouseTransparent(false);
-            fadeInMainMenuAndBackground();
+            showMainMenuRunnable.run(); // No title fade, proceed directly
         }
     }
 
-    //A transition design to go i main menu
     private void fadeInMainMenuAndBackground() {
+        // ... (your existing fade in logic, should be fine)
+        System.out.println("MainMenuController: fadeInMainMenuAndBackground called.");
         ParallelTransition parallelFadeIn = new ParallelTransition();
         boolean somethingToFade = false;
 
-        if (mainMenuGroup != null) {
-            parallelFadeIn.getChildren().add(createFadeTransition(mainMenuGroup, Duration.millis(1000), 0.0, 1.0));
+        if (mainMenuGroup != null && mainMenuGroup.getOpacity() < 1.0) {
+            parallelFadeIn.getChildren().add(createFadeTransition(mainMenuGroup, Duration.millis(1000), mainMenuGroup.getOpacity(), 1.0));
             somethingToFade = true;
         }
-        if (backgroundThunderImageView != null) {
+        if (backgroundThunderImageView != null && backgroundThunderImageView.getOpacity() < VISIBLE_BACKGROUND_OPACITY) {
             parallelFadeIn.getChildren().add(createFadeTransition(
-                backgroundThunderImageView, Duration.millis(1000), 0.0, VISIBLE_BACKGROUND_OPACITY));
+                backgroundThunderImageView, Duration.millis(1000), backgroundThunderImageView.getOpacity(), VISIBLE_BACKGROUND_OPACITY));
             somethingToFade = true;
         }
         
         if (somethingToFade) {
             parallelFadeIn.play();
-            parallelFadeIn.setOnFinished(event -> System.out.println("Main menu and background fade-in complete."));
+            parallelFadeIn.setOnFinished(event -> System.out.println("MainMenuController: Main menu and background fade-in complete."));
         } else {
-            System.err.println("Nothing to fade in for main menu/background.");
+            System.out.println("MainMenuController: fadeInMainMenuAndBackground - Nothing to fade in (already at target opacity).");
         }
     }
 
-    //initializing menu content
-    private void setupMainMenuContent() {
-        System.out.println("Setting up main menu content (CharacterManager, etc.)");
-        List<String> localCharacterImageFiles = List.of(
-                "images/characters/1.png", "images/characters/2.png",
-                "images/characters/3.png", "images/characters/4.png",
-                "images/characters/5.png"
+
+    private synchronized void setupMainMenuContent() {
+        if (mainMenuContentIsSetup) {
+            System.out.println("MainMenuController: setupMainMenuContent - Already setup.");
+            return; // Prevent re-initialization
+        }
+        System.out.println("MainMenuController: setupMainMenuContent STARTING.");
+        
+        List<String> localCharacterMenuImageFiles = List.of(
+                "images/characters/Hera.png", "images/characters/norman.png",
+                "images/characters/Jewel.png", "images/characters/Batman.png"
         );
-        List<String> localCharacterNames = List.of(
-                "Pocholo", "Marc", "Eijel", "Shera", "Denver"
-        );
+        List<String> localCharacterNames = List.of("Hera", "Norman", "Jewel", "batman");
 
         try {
-            if (characterManager == null) { 
-                characterManager = new CharacterManager(localCharacterImageFiles, localCharacterNames);
-                characterManager.setCurrentIndex(currentCharIndex);
-            }
+            characterManager = new CharacterManager(localCharacterMenuImageFiles, localCharacterNames);
+            characterManager.setCurrentIndex(currentCharIndex);
+            mainMenuContentIsSetup = true; // Set flag ON SUCCESS
+            System.out.println("MainMenuController: CharacterManager INITIALIZED successfully. mainMenuContentIsSetup = true.");
         } catch (IllegalArgumentException e) {
-            System.err.println("CRITICAL: Could not initialize CharacterManager. " + e.getMessage());
-            if (characterNameLabel != null) characterNameLabel.setText("Character Data Error!");
+            System.err.println("MainMenuController CRITICAL: Could not initialize CharacterManager: " + e.getMessage());
+            mainMenuContentIsSetup = false; // Explicitly false on error
+            if (characterNameLabel != null) characterNameLabel.setText("Char Data Err!");
             if (characterChangeButton != null) characterChangeButton.setDisable(true);
+            if (newGameButton != null) newGameButton.setDisable(true);
             return;
         }
-        setMenuButtonsDisabled(false);
-        loadCurrentCharacterDisplay(true); 
-        System.out.println("Main menu content setup complete.");
+        // Don't enable buttons here, transitionToMainMenu will enable them when group is interactive
+        // setMenuButtonsDisabled(false); 
+        loadCurrentCharacterDisplay(true); // Load the first character for display
+        System.out.println("MainMenuController: setupMainMenuContent FINISHED.");
     }
 
-    //setting main menu buttons when character is being chosen
     private void setMenuButtonsDisabled(boolean disabled) {
+        System.out.println("MainMenuController: setMenuButtonsDisabled to " + disabled);
         if (characterChangeButton != null) characterChangeButton.setDisable(disabled);
         if (newGameButton != null) newGameButton.setDisable(disabled);
-        if (loadGameButton != null) loadGameButton.setDisable(disabled);
+        if (loadGameButton != null) loadGameButton.setDisable(disabled); // This is "Quit"
     }
 
-    //load the current or first character
     private void loadCurrentCharacterDisplay(boolean isInitialLoad) {
-        if (characterManager == null) { System.err.println("CharacterManager null in loadDisplay"); return; }
-        if (characterImageView == null || characterNameLabel == null) { System.err.println("ImageView or NameLabel null in loadDisplay"); return; }
+        // ... (your existing loadCurrentCharacterDisplay, should be fine) ...
+        // Make sure it gracefully handles characterManager == null just in case, though ensureMainMenuContentIsSetup should prevent that.
+        if (characterManager == null || characterImageView == null || characterNameLabel == null) {
+            System.err.println("MainMenuController: Cannot load character display: CharacterManager or FXML elements are null.");
+            return;
+        }
 
-        String imagePath = characterManager.getCurrentImagePath();
-        String charName = characterManager.getCurrentName();
+        String relativeImagePath = characterManager.getCurrentImagePath(); 
+        String charName = characterManager.getCurrentName();              
 
-        if (imagePath == null || charName == null) { System.err.println("Null path/name from CharacterManager"); return; }
-
-        Image charImage = null;
+        if (relativeImagePath == null || charName == null) {
+            System.err.println("MainMenuController: Null image path or name from CharacterManager during load display.");
+            return;
+        }
+        
+        String fullResourcePath = "/com/leave/engine/" + relativeImagePath;
         try {
-            charImage = new Image(getClass().getResourceAsStream("/com/leave/engine/" + imagePath));
+            Image charImage = new Image(getClass().getResourceAsStream(fullResourcePath));
             if (charImage.isError()) {
-                System.err.println("Error loading image: " + imagePath + ", " + charImage.getException().getMessage());
+                System.err.println("MainMenuController Error loading menu character image: " + fullResourcePath + ", " + charImage.getException().getMessage());
                 characterImageView.setImage(null);
             } else {
                 characterImageView.setImage(charImage);
             }
         } catch (Exception e) {
-            System.err.println("Exception loading image: " + imagePath); e.printStackTrace();
+            System.err.println("MainMenuController Exception loading menu character image: " + fullResourcePath);
+            e.printStackTrace();
             characterImageView.setImage(null);
         }
         characterNameLabel.setText("You are playing as " + charName);
 
         if (isInitialLoad) {
             if (menuButtonBox != null) menuButtonBox.setOpacity(1.0);
-            if (centerContentVBox != null) centerContentVBox.setOpacity(1.0); 
+            if (centerContentVBox != null) centerContentVBox.setOpacity(1.0);
             if (tradeMarc != null) tradeMarc.setOpacity(1.0);
-            
             if (backgroundSpotlightCircle != null) backgroundSpotlightCircle.setOpacity(1.0);
             if (characterImageView != null) characterImageView.setOpacity(1.0);
             if (characterNameLabel != null) characterNameLabel.setOpacity(1.0);
         }
     }
-    
-    //for changing game characters
+
     @FXML
     private void handleCharacterChange() {
-        if (characterManager == null || backgroundThunderImageView == null || backgroundSpotlightCircle == null ||
-            characterImageView == null || characterNameLabel == null || menuButtonBox == null || centerContentVBox == null || tradeMarc == null) {
-            System.err.println("handleCharacterChange: One or more critical FXML elements for animation are null!");
-            return;
+        ensureMainMenuContentIsSetup(); // Ensure manager is ready
+        if (!mainMenuContentIsSetup || characterManager == null) {
+             System.err.println("MainMenuController: handleCharacterChange - Cannot change character, content not setup."); return;
         }
-        if (isCharacterAnimating || characterManager.getCharacterCount() <= 1) {
-            return;
-        }
+        // ... (Your existing complex animation logic - assume it's okay if it worked before) ...
+        // The logic to disable buttons, animate, call characterManager.nextCharacter(),
+        // then loadCurrentCharacterDisplay(false), and re-enable buttons.
+        if (isCharacterAnimating || characterManager.getCharacterCount() <= 1) return;
+        
+        // ... (rest of your animation logic)
+        // Simplified structure - ensure key parts are there
         isCharacterAnimating = true;
         setMenuButtonsDisabled(true);
-
-        // Durations
+        // Animations ...
+        // on animation finish:
+            // characterManager.nextCharacter();
+            // loadCurrentCharacterDisplay(false);
+            // isCharacterAnimating = false;
+            // setMenuButtonsDisabled(false);
+        // For brevity, assuming your existing detailed animation transitions in here are fine
+        // Your existing `handleCharacterChange` was complex; ensure the core flow:
+        // 1. Start anim & disable buttons
+        // 2. On anim end: characterManager.next(), loadCurrentCharacterDisplay(false), isCharacterAnimating=false, enable buttons.
+        // --- Using your provided animation logic directly: ---
+        if (backgroundThunderImageView == null || backgroundSpotlightCircle == null ||
+            characterImageView == null || characterNameLabel == null || menuButtonBox == null || centerContentVBox == null || tradeMarc == null) {
+            System.err.println("handleCharacterChange: One or more critical FXML elements for animation are null!");
+            isCharacterAnimating = false; setMenuButtonsDisabled(false); // Re-enable if bailing
+            return;
+        }
+        // (Your Durations...)
         Duration spotlightFadeOutDuration = Duration.millis(250);
         Duration mainElementsFadeDuration = Duration.millis(400);
-        Duration shortPauseDuration = Duration.millis(100);
-        Duration blinkSegmentDuration = Duration.millis(100);
-        Duration revealPauseDuration = Duration.millis(150);
-
-        // --- FADE OUT SEQUENCE ---
-        // 1. Spotlight fades out FIRST
+        // ... rest of your detailed animation sequence code as you provided it ...
+        // The end of that sequence should correctly set isCharacterAnimating = false and setMenuButtonsDisabled(false).
+        // That complex animation sequence is copied from your previous MainMenuController.java.
         FadeTransition spotlightFadeOut = createFadeTransition(
                 backgroundSpotlightCircle, spotlightFadeOutDuration, backgroundSpotlightCircle.getOpacity(), 0.0);
-
-        // 2. THEN, after spotlight is out, fade out everything else in parallel
         ParallelTransition allOtherElementsFadeOut = new ParallelTransition();
         allOtherElementsFadeOut.getChildren().add(createFadeTransition(backgroundThunderImageView, mainElementsFadeDuration, backgroundThunderImageView.getOpacity(), 0.0));
         allOtherElementsFadeOut.getChildren().add(createFadeTransition(menuButtonBox, mainElementsFadeDuration, menuButtonBox.getOpacity(), 0.0));
-        allOtherElementsFadeOut.getChildren().add(createFadeTransition(centerContentVBox, mainElementsFadeDuration, centerContentVBox.getOpacity(), 0.0)); // Fades char name, image, btn inside
+        allOtherElementsFadeOut.getChildren().add(createFadeTransition(centerContentVBox, mainElementsFadeDuration, centerContentVBox.getOpacity(), 0.0)); 
         allOtherElementsFadeOut.getChildren().add(createFadeTransition(tradeMarc, mainElementsFadeDuration, tradeMarc.getOpacity(), 0.0));
-        // Note: characterImageView and characterNameLabel are part of centerContentVBox, so they'll fade with it.
-
-        SequentialTransition fullFadeOutToBlack = new SequentialTransition(
-            spotlightFadeOut,
-            createPauseTransition(shortPauseDuration),
-            allOtherElementsFadeOut,
-            createPauseTransition(shortPauseDuration)
-        );
+        SequentialTransition fullFadeOutToBlack = new SequentialTransition(spotlightFadeOut, createPauseTransition(Duration.millis(100)),allOtherElementsFadeOut,createPauseTransition(Duration.millis(100)));
 
         fullFadeOutToBlack.setOnFinished(fadeOutEvent -> {
             characterManager.nextCharacter();
-            
             if(characterImageView != null) characterImageView.setOpacity(0.0);
             if(characterNameLabel != null) { characterNameLabel.setOpacity(0.0); characterNameLabel.setText(""); }
             if(backgroundSpotlightCircle != null) backgroundSpotlightCircle.setOpacity(0.0);
-            
-
             loadCurrentCharacterDisplay(false); 
-
-            
             ParallelTransition allElementsFadeIn = new ParallelTransition();
-
             allElementsFadeIn.getChildren().add(createFadeTransition(backgroundThunderImageView, mainElementsFadeDuration, 0.0, VISIBLE_BACKGROUND_OPACITY));
-            allElementsFadeIn.getChildren().add(createBlinkTimeline(backgroundSpotlightCircle, blinkSegmentDuration, 1.0));
-            allElementsFadeIn.getChildren().add(createBlinkTimeline(menuButtonBox, blinkSegmentDuration.add(Duration.millis(20)), 1.0));
-            allElementsFadeIn.getChildren().add(createBlinkTimeline(centerContentVBox, blinkSegmentDuration.add(Duration.millis(20)), 1.0)); // Blinks in char image, name, button
-            allElementsFadeIn.getChildren().add(createBlinkTimeline(tradeMarc, blinkSegmentDuration.add(Duration.millis(20)), 1.0));
-            
-            
-            allElementsFadeIn.getChildren().add(createBlinkTimeline(characterImageView, blinkSegmentDuration, 1.0));
-            allElementsFadeIn.getChildren().add(createFadeTransition(characterNameLabel, blinkSegmentDuration.multiply(5), 0.0, 1.0));
-
-
-            SequentialTransition showEverythingSequence = new SequentialTransition(
-                createPauseTransition(revealPauseDuration),
-                allElementsFadeIn
-            );
-
+            allElementsFadeIn.getChildren().add(createBlinkTimeline(backgroundSpotlightCircle, Duration.millis(100), 1.0));
+            allElementsFadeIn.getChildren().add(createBlinkTimeline(menuButtonBox, Duration.millis(120), 1.0));
+            allElementsFadeIn.getChildren().add(createBlinkTimeline(centerContentVBox, Duration.millis(120), 1.0));
+            allElementsFadeIn.getChildren().add(createBlinkTimeline(tradeMarc, Duration.millis(120), 1.0));
+            allElementsFadeIn.getChildren().add(createBlinkTimeline(characterImageView, Duration.millis(100), 1.0));
+            allElementsFadeIn.getChildren().add(createFadeTransition(characterNameLabel, Duration.millis(500), 0.0, 1.0));
+            SequentialTransition showEverythingSequence = new SequentialTransition(createPauseTransition(Duration.millis(150)), allElementsFadeIn);
             showEverythingSequence.play();
             showEverythingSequence.setOnFinished(fadeInEvent -> {
                 isCharacterAnimating = false;
                 setMenuButtonsDisabled(false);
-                System.out.println("Character change animation finished with new sequence.");
             });
         });
-
         fullFadeOutToBlack.play();
-        System.out.println("Character change animation sequence (spotlight first) started.");
     }
 
-    
-    //sets again for a new game
+
     @FXML
     public void handleNewGame(ActionEvent event) {
-        System.out.println("MainMenuController.handleNewGame called!");
+        System.out.println("MainMenuController: handleNewGame called!");
 
-        // 1. Get the GameManager instance
-        GameManager gm = GameManager.getInstance();
-
-        // 2. Get the currently selected character's name from CharacterManager
-        if (this.characterManager == null) {
-            System.err.println("CRITICAL: CharacterManager is null in handleNewGame. Cannot proceed.");
-            // Show an error to the user perhaps
+        ensureMainMenuContentIsSetup(); // Ensure manager is definitely ready
+        if (!mainMenuContentIsSetup || this.characterManager == null) {
+            System.err.println("MainMenuController CRITICAL: Main menu content not setup OR CharacterManager is NULL in handleNewGame. Aborting. mainMenuContentIsSetup=" + mainMenuContentIsSetup);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Menu Error");
+            alert.setHeaderText("Menu Not Fully Initialized");
+            alert.setContentText("Please wait a moment for the menu to load and try again.");
+            alert.showAndWait();
             return;
         }
-        String selectedCharacterName = this.characterManager.getCurrentName();
+        System.out.println("MainMenuController: handleNewGame - Proceeding, CharacterManager IS available.");
+
+        GameManager gm = GameManager.getInstance();
+        String selectedCharacterName = this.characterManager.getCurrentName(); // From local CharacterManager
+        
         if (selectedCharacterName == null || selectedCharacterName.trim().isEmpty()) {
-            System.err.println("CRITICAL: Could not get a valid character name from CharacterManager.");
-            selectedCharacterName = "Hero"; // Fallback if something went wrong
+            System.err.println("MainMenuController CRITICAL: Could not get a valid character name from CharacterManager instance.");
+            selectedCharacterName = "FallbackPlayer"; // Should not happen if CharacterManager works
         }
-
-        // 3. Set this name in GameManager
         gm.setCurrentPlayerCharacterName(selectedCharacterName);
-        // gm.startGame(); // startGame was already called in App.start(). 
-                         // Here, we are just confirming/setting the player character specifically.
-                         // The existing startGame in App set the initial scene.
 
-        System.out.println("MainMenuController: Transitioning to gameplay as player: " + selectedCharacterName);
+        String portraitBaseName = selectedCharacterName.toLowerCase();
+        // Make sure this path aligns with your actual portrait image locations and names
+        String selectedPlayerPortraitPath = "/com/leave/engine/images/characters/portraits/" + portraitBaseName + ".png";
+        gm.setCurrentPlayerPortraitPath(selectedPlayerPortraitPath);
+
+        System.out.println("MainMenuController: Player selected: " + selectedCharacterName +
+                           ", Dialogue Portrait Path set to GameManager: " + selectedPlayerPortraitPath);
+
+        if (thunderAnimator != null) thunderAnimator.stop();
+        if (logoAnimator != null) logoAnimator.stop();
+
         try {
-            if (thunderAnimator != null) thunderAnimator.stop();
-            if (logoAnimator != null) logoAnimator.stop();
-
-            // When switching to "gameplay.fxml", GamePlayController's initialize() will be called.
-            // GamePlayController should then fetch the current scene data from GameManager.
             App.setRoot("gameplay", (controller) -> {
                 if (controller instanceof GamePlayController) {
                     GamePlayController gpc = (GamePlayController) controller;
-                    // Now that gameplay.fxml is loaded and its controller is ready,
-                    // tell it to display the scene based on GameManager's current state.
-                    // GameManager.currentSceneId was set by GameManager.startGame() in App.start().
-                    gpc.displayCurrentScene(); 
+                    System.out.println("MainMenuController: Transitioning to gameplay. Calling gpc.displayCurrentScene().");
+                    gpc.displayCurrentScene();
                 }
             });
         } catch (IOException e) {
-            System.err.println("Error loading gameplay.fxml for new game:");
+            System.err.println("MainMenuController Error: loading gameplay.fxml for new game: " + e.getMessage());
             e.printStackTrace();
-            // TODO: Show an error dialog to the user
+            // TODO: Show user-friendly error dialog
         }
     }
 
-    //load a new window
     @FXML
-    public void handleLoadGame(ActionEvent event) {
-        System.out.println("handleLoadGame (Quit) in MainMenuController called!");
+    public void handleLoadGame(ActionEvent event) { // This is "Quit Game"
+        System.out.println("MainMenuController: Quit Game button clicked.");
         if (thunderAnimator != null) thunderAnimator.stop();
         if (logoAnimator != null) logoAnimator.stop();
-        javafx.application.Platform.exit();
+        //if (audioManager != null) audioManager.shutdown(); // Assuming you have AudioManager instance here or get it
+        Platform.exit();
+        System.exit(0); // Force exit if Platform.exit() hangs for any reason
     }
 }

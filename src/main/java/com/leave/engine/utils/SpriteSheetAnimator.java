@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
  * Animates a sprite sheet on a JavaFX {@link ImageView}.
  * It cycles through frames of a sprite sheet image by updating the ImageView's viewport.
  * Supports looping and an on-finished callback for non-looping animations.
+ * Optimized for single-frame sequences to act as static image display without continuous timer.
  */
 public class SpriteSheetAnimator {
 
@@ -19,57 +20,58 @@ public class SpriteSheetAnimator {
     private final Image spriteSheet;
     private final int frameWidth;
     private final int frameHeight;
-    private final int numColsInSheet; // Renamed for clarity
-    private final int totalFramesInSequence; // Renamed for clarity
+    private final int numColsInSheet;
+    private int totalFramesInSequence;
     private final double fps;
     private final boolean loopAnimation;
 
-    private int currentFrameIndex = 0; // Renamed for clarity
-    private long lastFrameTimeNs = 0;    // Renamed for clarity (nanoseconds)
+    private int currentFrameIndex = 0;
+    private long lastFrameTimeNs = 0;
     private AnimationTimer animationTimer;
     private Runnable onFinishedCallback;
-    private boolean isPlaying = false;
+    private boolean isPlaying = false; 
 
     /**
      * Main constructor for the SpriteSheetAnimator.
      *
-     * @param imageView         The ImageView to display the animation on. Must not be null.
-     * @param spriteSheetPath   The classpath resource path to the sprite sheet image (e.g., "/com/example/sprites.png").
-     *                          The path should typically start with a "/" if it's absolute from the classpath root.
-     * @param frameWidth        The width of a single frame in the sprite sheet. Must be positive.
-     * @param frameHeight       The height of a single frame in the sprite sheet. Must be positive.
-     * @param numColsInSheet    The number of columns of frames in the entire sprite sheet image. Must be positive.
-     * @param totalFramesInSequence The total number of frames that make up this specific animation sequence. Must be positive.
-     *                           (This allows using only a portion of a larger sprite sheet if needed).
-     * @param fps               Desired frames per second for the animation. Must be positive.
-     * @param loop              True if the animation sequence should loop indefinitely, false otherwise.
-     * @throws IllegalArgumentException if any parameters are invalid (e.g., null ImageView, non-positive dimensions/fps)
-     *                                  or if the sprite sheet image cannot be loaded from the given path.
+     * @param imageView             The ImageView to display the animation on.
+     * @param spriteSheetPath       The classpath resource path to the sprite sheet image.
+     * @param frameWidth            The width of a single frame.
+     * @param frameHeight           The height of a single frame.
+     * @param numColsInSheet        Number of columns of frames in the entire sprite sheet.
+     * @param totalFramesInSequence Total number of frames in this animation sequence.
+     * @param fps                   Desired frames per second.
+     * @param loop                  True if the animation should loop.
+     * @throws IllegalArgumentException if parameters are invalid or image cannot be loaded.
      */
     public SpriteSheetAnimator(ImageView imageView, String spriteSheetPath,
                                int frameWidth, int frameHeight, int numColsInSheet,
                                int totalFramesInSequence, double fps, boolean loop) {
-        if (imageView == null) { // test if the image does not exist
+        if (imageView == null) {
             throw new IllegalArgumentException("ImageView cannot be null.");
         }
-        if (spriteSheetPath == null || spriteSheetPath.trim().isEmpty()) { // test if  path is empty, null or whitespace
+        if (spriteSheetPath == null || spriteSheetPath.trim().isEmpty()) {
             throw new IllegalArgumentException("Sprite sheet path cannot be null or empty.");
         }
-        if (frameWidth <= 0 || frameHeight <= 0 || numColsInSheet <= 0 || totalFramesInSequence <= 0 || fps <= 0) { //
-            throw new IllegalArgumentException("Frame dimensions, columns in sheet, total frames in sequence, and FPS must all be positive.");
+        if (frameWidth <= 0 || frameHeight <= 0 || numColsInSheet <= 0 || totalFramesInSequence <= 0 || fps <= 0.0) { // Allow fps to be very small but still positive
+             // Special case for fps: If totalFramesInSequence is 1, fps can be anything positive but doesn't really matter.
+            if (!(totalFramesInSequence == 1 && fps > 0.0)) {
+                 throw new IllegalArgumentException("Frame dimensions, columns, total frames, and FPS must be positive. (FPS must be > 0 even for single frame).");
+            }
         }
+
 
         this.imageView = imageView;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
         this.numColsInSheet = numColsInSheet;
         this.totalFramesInSequence = totalFramesInSequence;
-        this.fps = fps;
-        this.loopAnimation = loop;
+        this.fps = (totalFramesInSequence == 1) ? 1.0 : fps; 
+        this.loopAnimation = (totalFramesInSequence == 1) ? false : loop; // Loop is false for single frame
 
         URL spriteUrl = getClass().getResource(spriteSheetPath);
         if (spriteUrl == null && !spriteSheetPath.startsWith("/")) {
-            spriteUrl = getClass().getResource("/" + spriteSheetPath); // Attempt with leading slash
+            spriteUrl = getClass().getResource("/" + spriteSheetPath);
         }
         if (spriteUrl == null) {
             throw new IllegalArgumentException("Sprite sheet resource not found at: " + spriteSheetPath);
@@ -77,22 +79,36 @@ public class SpriteSheetAnimator {
 
         this.spriteSheet = new Image(spriteUrl.toExternalForm());
         if (this.spriteSheet.isError()) {
-            this.spriteSheet.getException().printStackTrace(); // Log the underlying image load error
+            this.spriteSheet.getException().printStackTrace();
             throw new IllegalArgumentException("Error loading sprite sheet image: " + spriteSheetPath, this.spriteSheet.getException());
         }
 
-        // Validate image dimensions against frame dimensions (optional but good)
         if (this.spriteSheet.getWidth() < frameWidth || this.spriteSheet.getHeight() < frameHeight) {
-            throw new IllegalArgumentException("Sprite sheet dimensions are smaller than a single frame's dimensions.");
+            throw new IllegalArgumentException("Sprite sheet dimensions (" + this.spriteSheet.getWidth() + "x" + this.spriteSheet.getHeight() +
+                                               ") are smaller than a single frame's dimensions (" + frameWidth + "x" + frameHeight + "). " +
+                                               "Path: " + spriteSheetPath);
+        }
+        // Ensure total frames doesn't exceed what's possible with the sheet dimensions
+        int maxPossibleFrames = (int)(this.spriteSheet.getWidth() / frameWidth) * (int)(this.spriteSheet.getHeight() / frameHeight);
+        if (totalFramesInSequence > maxPossibleFrames) {
+             System.err.println("SpriteSheetAnimator Warning: totalFramesInSequence (" + totalFramesInSequence +
+                                ") exceeds max possible frames (" + maxPossibleFrames + ") for the given sheet and frame dimensions. " +
+                                "Path: " + spriteSheetPath + ". Clamping totalFramesInSequence.");
+            this.totalFramesInSequence = maxPossibleFrames;
         }
 
+
         this.imageView.setImage(this.spriteSheet);
-        setFrame(0); // Display the first frame of the sequence initially
+        // Do NOT call setFrame(0) here yet if totalFramesInSequence is 1, play() will handle it.
+        // For multi-frame, play() will set the first frame.
+        // If you want the first frame to always show immediately upon construction before play():
+        if (this.totalFramesInSequence > 0) { // Ensure there's at least one frame possible
+             setFrame(0);
+        }
     }
 
     /**
-     * Overloaded constructor that defaults to a non-looping animation.
-     * @see #SpriteSheetAnimator(ImageView, String, int, int, int, int, double, boolean)
+     * Overloaded constructor defaults to non-looping.
      */
     public SpriteSheetAnimator(ImageView imageView, String spriteSheetPath,
                                int frameWidth, int frameHeight, int numColsInSheet,
@@ -100,110 +116,114 @@ public class SpriteSheetAnimator {
         this(imageView, spriteSheetPath, frameWidth, frameHeight, numColsInSheet, totalFramesInSequence, fps, false);
     }
 
-    /**
-     * Sets the viewport of the ImageView to display the specified frame index.
-     * Calculations are based on a sprite sheet arranged in rows and columns.
-     * @param frameIndex The 0-based index of the frame to display from the animation sequence.
-     */
     private void setFrame(int frameIndex) {
-        if (spriteSheet == null || spriteSheet.isError() || imageView == null) {
+        if (spriteSheet == null || spriteSheet.isError() || imageView == null || totalFramesInSequence == 0) {
             return;
         }
-        // Validate frameIndex against totalFramesInSequence to prevent errors
-        // The play() logic handles wrapping or stopping, but this is a safeguard for direct calls.
-        if (frameIndex < 0 || frameIndex >= totalFramesInSequence) {
-             System.err.println("SpriteSheetAnimator: Attempted to set invalid frame index: " + frameIndex + 
-                                ", totalFramesInSequence: " + totalFramesInSequence + ". Clamping to valid range or doing nothing.");
-            if (loopAnimation) {
-                frameIndex = frameIndex % totalFramesInSequence; // Wrap if looping
-                if (frameIndex < 0) frameIndex += totalFramesInSequence; // Ensure positive if result of % is negative
+        
+        // Normalize frameIndex for display based on sequence length
+        // This handles direct calls to setFrame that might be outside the play logic's management
+        int displayIndex = frameIndex;
+        if (displayIndex < 0 || displayIndex >= totalFramesInSequence) {
+            if (loopAnimation && totalFramesInSequence > 0) { // only loop if there's more than one frame, actually
+                displayIndex = displayIndex % totalFramesInSequence;
+                if (displayIndex < 0) displayIndex += totalFramesInSequence;
             } else {
-                 frameIndex = Math.max(0, Math.min(frameIndex, totalFramesInSequence - 1)); // Clamp to bounds
+                displayIndex = Math.max(0, Math.min(displayIndex, totalFramesInSequence - 1));
             }
         }
 
-        int col = frameIndex % numColsInSheet;
-        int row = frameIndex / numColsInSheet; // Integer division gives the correct row index
+        int col = displayIndex % numColsInSheet;
+        int row = displayIndex / numColsInSheet;
 
         double x = col * (double) frameWidth;
         double y = row * (double) frameHeight;
 
-        // Basic check to ensure calculated viewport is within the actual spritesheet dimensions
-        if (x + frameWidth > spriteSheet.getWidth() || y + frameHeight > spriteSheet.getHeight()) {
-            System.err.println("SpriteSheetAnimator Warning: Calculated viewport for frame " + frameIndex +
-                               " (x:" + x + ", y:" + y + ") may extend beyond sprite sheet dimensions (" +
-                               spriteSheet.getWidth() + "x" + spriteSheet.getHeight() + "). " +
-                               "Check numColsInSheet, totalFramesInSequence, and frame dimensions.");
-            // Don't set viewport if it's clearly out of bounds for the whole sheet
-            // Though the primary error would be in parameter setup.
-            // We could choose to clamp viewport dimensions here too, but it's better if parameters are correct.
+        // Validate viewport bounds
+        if (x < 0 || y < 0 || x + frameWidth > spriteSheet.getWidth() + 0.001 || y + frameHeight > spriteSheet.getHeight() + 0.001) { // Added tolerance
+            System.err.println("SpriteSheetAnimator Warning: Calculated viewport for frame index " + frameIndex +
+                               " (effective displayIndex " + displayIndex + " at x:" + x + ", y:" + y + ", w:" + frameWidth + ", h:" + frameHeight +
+                               ") is out of sprite sheet bounds (" + spriteSheet.getWidth() + "x" + spriteSheet.getHeight() + "). " +
+                               "Check numColsInSheet, totalFramesInSequence, and frame dimensions. Image Path: (Inspect constructor logs)");
+            return; // Do not set invalid viewport
         }
         
         imageView.setViewport(new Rectangle2D(x, y, frameWidth, frameHeight));
+        this.currentFrameIndex = displayIndex; // Update currentFrameIndex to the one actually set
     }
 
-    /**
-     * Sets a callback to be executed when a non-looping animation completes naturally.
-     * This callback is not invoked if the animation is stopped manually via {@link #stop()}.
-     *
-     * @param callback The {@link Runnable} to execute on completion.
-     */
     public void setOnFinished(Runnable callback) {
         this.onFinishedCallback = callback;
     }
 
     /**
-     * Starts playing the animation from the beginning (frame 0).
-     * If the animation is already playing, this method does nothing.
-     * If an {@link AnimationTimer} was previously active, it is stopped first.
+     * Starts playing the animation.
+     * If totalFramesInSequence is 1, it sets the frame and completes (calling onFinished if applicable).
+     * Otherwise, it starts an AnimationTimer.
      */
     public void play() {
-        if (isPlaying) {
+        if (isPlaying && totalFramesInSequence > 1) { // isPlaying for multi-frame refers to active timer
+            System.out.println("SpriteSheetAnimator: Animation (multi-frame) is already playing.");
             return;
         }
         if (spriteSheet == null || spriteSheet.isError()) {
             System.err.println("SpriteSheetAnimator: Cannot play, spriteSheet is null or has an error.");
             return;
         }
-        if (fps <= 0) { // Prevent division by zero or infinite loop if not caught in constructor
-            System.err.println("SpriteSheetAnimator: FPS must be positive to play. Animation not started.");
+         if (fps <= 0 && totalFramesInSequence > 1) { // FPS matters for multi-frame
+            System.err.println("SpriteSheetAnimator: FPS must be positive to play multi-frame animation. Animation not started.");
             return;
         }
+
+        // Stop any existing timer before starting a new play session or setting a single frame
         if (animationTimer != null) {
             animationTimer.stop();
         }
-        currentFrameIndex = 0;
-        setFrame(currentFrameIndex);
-        isPlaying = true;
 
-        animationTimer = new AnimationTimer() {
+        currentFrameIndex = 0; // Always start from the beginning
+        setFrame(currentFrameIndex); // Display the first frame immediately
+
+         if (animationTimer != null) animationTimer.stop();
+
+    
+    if (totalFramesInSequence == 1) {
+        if (this.imageView.getImage() == null || this.imageView.getViewport() == null || currentFrameIndex != 0) {
+            // If image/viewport isn't set, or we aren't on frame 0 ensure it's correctly displayed
+             setFrame(0); // This ensures it's on frame 0
+        }
+        this.isPlaying = false;
+        // ... onFinished ...
+        return;
+    }
+
+        // For multi-frame animations:
+       animationTimer = new AnimationTimer() {
             @Override
-            public void handle(long nowNs) { // Parameter is in nanoseconds
-                if (lastFrameTimeNs == 0) { // First frame after play()
+            public void handle(long nowNs) {
+                if (lastFrameTimeNs == 0) {
                     lastFrameTimeNs = nowNs;
                     return;
                 }
 
                 long elapsedNs = nowNs - lastFrameTimeNs;
-                long frameDurationNs = (long) (1_000_000_000.0 / fps);
+                long frameDurationNs = (long) (1_000_000_000.0 / SpriteSheetAnimator.this.fps); // Use outer class fps
 
                 if (elapsedNs >= frameDurationNs) {
-                    currentFrameIndex++;
-                    if (currentFrameIndex >= totalFramesInSequence) {
+                    int nextFrame = currentFrameIndex + 1; // Use a local variable for clarity
+                    if (nextFrame >= totalFramesInSequence) {
                         if (loopAnimation) {
-                            currentFrameIndex = 0; // Loop back to the first frame
+                            nextFrame = 0;
                         } else {
                             this.stop(); // Stop this AnimationTimer instance
-                            SpriteSheetAnimator.this.isPlaying = false; // Update outer class field
-                            SpriteSheetAnimator.this.lastFrameTimeNs = 0; // Reset outer class field
+                            SpriteSheetAnimator.this.isPlaying = false;
+                            SpriteSheetAnimator.this.lastFrameTimeNs = 0;
                             if (onFinishedCallback != null) {
-                                Platform.runLater(onFinishedCallback); // Ensure callback on FX thread
+                                Platform.runLater(onFinishedCallback);
                             }
-                            return; // Animation finished and not looping
+                            return; // Animation finished
                         }
                     }
-                    setFrame(currentFrameIndex);
-                    // Adjust lastFrameTime to account for potential overshoot, helps maintain smoother FPS
+                    setFrame(nextFrame); // setFrame updates currentFrameIndex
                     lastFrameTimeNs = nowNs - (elapsedNs % frameDurationNs);
                 }
             }
@@ -212,41 +232,30 @@ public class SpriteSheetAnimator {
         animationTimer.start();
     }
 
-    /**
-     * Stops the animation if it is currently playing.
-     * Resets animation state. The onFinishedCallback is NOT called by this method.
-     */
     public void stop() {
         if (animationTimer != null) {
             animationTimer.stop();
         }
-        isPlaying = false;
+        isPlaying = false; // Regardless of whether it was a timer or single frame "playing"
         lastFrameTimeNs = 0;
-        // currentFrameIndex could be reset to 0 here or left as is, depending on desired resume behavior
-        // For now, let's leave currentFrameIndex, so a subsequent play() starts from 0.
     }
 
-    /**
-     * @return True if the animation is currently playing, false otherwise.
-     */
     public boolean isPlaying() {
+        // For multi-frame, isPlaying reflects active timer.
+        // For single-frame, play() sets it to false immediately after setting the frame.
+        // This getter mostly indicates if an AnimationTimer is currently running.
         return isPlaying;
     }
 
-    /**
-     * Stops the current animation and jumps to a specific frame, displaying it statically.
-     *
-     * @param frameIndex The 0-based index of the frame to display.
-     *                   If out of bounds, an error is printed, and no change occurs for invalid indices.
-     */
+    
     public void gotoAndStop(int frameIndex) {
-        stop();
-        if (frameIndex >= 0 && frameIndex < totalFramesInSequence) {
-            currentFrameIndex = frameIndex;
-            setFrame(currentFrameIndex);
-        } else {
-            System.err.println("SpriteSheetAnimator: gotoAndStop - Frame index " + frameIndex +
-                               " is out of bounds (0-" + (totalFramesInSequence - 1) + ").");
+        stop(); 
+
+        if (totalFramesInSequence == 0) {
+             System.err.println("SpriteSheetAnimator: gotoAndStop - No frames to go to (totalFramesInSequence is 0).");
+             return;
         }
+        
+        setFrame(frameIndex);
     }
 }

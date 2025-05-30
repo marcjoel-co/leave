@@ -17,7 +17,7 @@ public class TitlePanel implements Initializable {
     private ImageView logoAnimationImageView;
 
     //file path of the png animation
-    private static final String SPRITE_SHEET_PATH = "/com/leave/engine/images/LogoIntroAnim.png"; // Path to your 35460x560 image
+    private static final String SPRITE_SHEET_PATH = "/com/leave/engine/images/LogoIntroAnim.png"; 
 
     //width and hight values of the png
     private static final int SPRITE_SHEET_TOTAL_WIDTH = 35460;

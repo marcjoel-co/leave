@@ -1,34 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?> 
 <?import javafx.scene.control.Label?>
-    <?import javafx.scene.image.ImageView?>
-    <?import javafx.scene.layout.BorderPane?>
-    <?import javafx.scene.layout.VBox?>
-    <?import javafx.scene.layout.StackPane?>
-    <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="gameRootPane" styleClass="game-background-default" stylesheets="@style.css"
+           xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.leave.engine.GamePlayController">
+
+    <ImageView fx:id="sceneBackgroundImageView" fitWidth="${gameRootPane.width}" fitHeight="${gameRootPane.height}" preserveRatio="false" />
+
+    <ImageView fx:id="characterDisplayImageView" preserveRatio="true" fitHeight="400" StackPane.alignment="BOTTOM_LEFT">
+        <StackPane.margin>
+            <Insets bottom="200" left="50"/> <!-- Adjust if dialogue box is taller/shorter -->
+        </StackPane.margin>
+    </ImageView>
+
+    <Label fx:id="endingTitleLabel" styleClass="ending-title-label" StackPane.alignment="CENTER"
+           visible="false" managed="false" wrapText="true" textAlignment="CENTER">
+        <StackPane.margin>
+            <Insets bottom="200"/> <!-- Adjust margin to position it above dialogue typically -->
+        </StackPane.margin>
+    </Label>
     
-    <StackPane fx:id="gameRootPane" styleClass="game-background-default" stylesheets="@style.css"
-               xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1"
-               fx:controller="com.leave.engine.GamePlayController">
+    <BorderPane>
+        <bottom>
+            <!-- Master HBox for the entire bottom dialogue UI -->
+            <HBox fx:id="dialogueHudHBox" alignment="BOTTOM_CENTER" spacing="10" styleClass="dialogue-hud-container">
+                <padding>
+                    <Insets bottom="30" left="30" right="30" top="10" />
+                </padding>
+
+                <!-- Left Side: StackPane to hold EITHER dialogue text OR choices, AND the continue indicator -->
+                <StackPane fx:id="dialogueAndChoicesStack" styleClass="dialogue-main-box" HBox.hgrow="ALWAYS">
+                    <!-- This StackPane gets the main dialogue box styling (background, border) -->
+
+                    <!-- Dialogue Text Area (VBox) -->
+                    <VBox fx:id="dialogueTextContainer" alignment="TOP_LEFT" spacing="5"
+                          visible="true" managed="true"> <!-- Dialogue is initially visible -->
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Label fx:id="sceneTextLabel" styleClass="dialogue-text" wrapText="true" maxWidth="Infinity" minHeight="80" VBox.vgrow="ALWAYS"/>
+                        <!-- continueIndicatorImageView MOVED OUTSIDE this VBox -->
+                    </VBox>
+
     
-        <ImageView fx:id="sceneBackgroundImageView" fitWidth="${gameRootPane.width}" fitHeight="${gameRootPane.height}" preserveRatio="false" />
-    
-        <BorderPane>
-            <center>
-                <VBox alignment="CENTER" spacing="20" maxWidth="800">
+                    <!-- Choices VBox (placed INSIDE the StackPane) -->
+                    <VBox fx:id="choicesVBox" alignment="CENTER_LEFT" spacing="10"
+                          styleClass="choices-ingame-container"
+                          visible="false" managed="false">       <!-- Choices are initially hidden -->
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/> <!-- Match dialogueTextContainer's padding -->
+                        </padding>
+                        <!-- Buttons will be added by GamePlayController -->
+                    </VBox>
+
+                    <!-- Continue Indicator ImageView - now a direct child of dialogueAndChoicesStack -->
+                    <!-- It overlays on top of dialogueTextContainer or choicesVBox based on its visibility -->
+                    <ImageView fx:id="continueIndicatorImageView" fitHeight="20" fitWidth="20" preserveRatio="true"
+                               visible="false" managed="false" mouseTransparent="true">
+                        <StackPane.margin>
+                            <Insets bottom="15" right="15"/> <!-- Adjust margin to look good -->
+                        </StackPane.margin>
+                        <StackPane.alignment>
+                            <Pos fx:value="BOTTOM_RIGHT"/> <!-- Correct way to set alignment in StackPane -->
+                        </StackPane.alignment>
+                    </ImageView>
+
+                </StackPane> <!-- End of dialogueAndChoicesStack -->
+
+
+              
+                <VBox fx:id="speakerPortraitContainer" styleClass="dialogue-portrait-box" alignment="CENTER"
+                      spacing="5" minWidth="150"
+                      visible="false" managed="false">
                     <padding>
-                        <Insets top="50" right="50" bottom="20" left="50"/>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
                     </padding>
-                    <Label fx:id="sceneTextLabel" styleClass="dialogue-text-horror" wrapText="true" text="Scene text will appear here..."/>
+                    <ImageView fx:id="speakerPortraitImageView" fitHeight="100" fitWidth="100" preserveRatio="true" styleClass="speaker-portrait-image"/>
+                    <Label fx:id="speakerNameLabel" styleClass="speaker-name-plate" textAlignment="CENTER"/>
                 </VBox>
-            </center>
-            <bottom>
-                <VBox fx:id="choicesVBox" alignment="CENTER" spacing="15" styleClass="choices-container">
-                    <padding>
-                        <Insets bottom="50" top="20"/>
-                    </padding>
-                
-                </VBox>
-            </bottom>
-        </BorderPane>
-    </StackPane>
+
+            </HBox> 
+        </bottom>
+    </BorderPane>
+
+
+</StackPane>

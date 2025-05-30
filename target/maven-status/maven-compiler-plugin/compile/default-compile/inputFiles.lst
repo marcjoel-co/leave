@@ -1,10 +1,14 @@
+/Users/mj/Documents/leave/src/main/java/com/leave/engine/utils/AudioManager.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/SecondaryController.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/GameStory.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/StoryLoader.java
+/Users/mj/Documents/leave/src/main/java/com/leave/engine/InteractiveObjectInfo.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/App.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/ChoiceData.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/OutcomeData.java
+/Users/mj/Documents/leave/src/main/java/com/leave/engine/CharacterSpriteInfo.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/utils/SpriteSheetAnimator.java
+/Users/mj/Documents/leave/src/main/java/com/leave/engine/DialogueEntry.java
 /Users/mj/Documents/leave/src/main/java/module-info.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/GamePlayController.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/TitlePanel.java
@@ -13,3 +17,4 @@
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/GameManager.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/SceneData.java
 /Users/mj/Documents/leave/src/main/java/com/leave/engine/CharacterManager.java
+/Users/mj/Documents/leave/src/main/java/com/leave/engine/SpriteInfo.java

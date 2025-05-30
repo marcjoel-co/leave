@@ -1,45 +1,27 @@
 package com.leave.engine; // Or com.leave.engine
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class ChoiceData {
-    @JsonProperty("text")
     private String text;
-
-    @JsonProperty("nextSceneId")
     private String nextSceneId;
+    private String outcome;
+    private String action; 
+    // private String requiredItem; 
+    private String requiredFlag; 
 
-    @JsonProperty("outcome")
-    private String outcome; 
+    // Getters and setters
+    public String getText() { return text; }
+    public void setText(String text) { this.text = text; }
+    public String getNextSceneId() { return nextSceneId; }
+    public void setNextSceneId(String nextSceneId) { this.nextSceneId = nextSceneId; }
+    public String getOutcome() { return outcome; }
+    public void setOutcome(String outcome) { this.outcome = outcome; }
+    public String getAction() { return action; }
+    public void setAction(String action) { this.action = action; }
+    // public String getRequiredItem() { return requiredItem; }
+    // public void setRequiredItem(String requiredItem) { this.requiredItem = requiredItem; }
+    public String getRequiredFlag() { return requiredFlag; }
+    // public void setRequiredFlag(String requiredFlag) { this.requiredFlag = requiredFlag; }
 
-    // Default constructor for Jackson
-    public ChoiceData() {}
-
-    // Getters
-    public String getText() {
-        return text;
-    }
-
-    public String getNextSceneId() {
-        return nextSceneId;
-    }
-
-    public String getOutcome() {
-        return outcome;
-    }
-
-    // Setters
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setNextSceneId(String nextSceneId) {
-        this.nextSceneId = nextSceneId;
-    }
-
-    public void setOutcome(String outcome) {
-        this.outcome = outcome;
-    }
 
     // Optional: toString for debugging
     @Override
