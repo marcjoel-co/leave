@@ -60,6 +60,7 @@ Key Feature
 
 ## 🎨 Styling and Assets
 
+* **Art Application used:** Piskel (https://www.piskelapp.com/) is a web and software application designed for creating pixel art.
 * **UI Layout:** FXML files (`gameEntry.fxml`, `gameplay.fxml`) define the structure of the GUI.
 * **Styling:** `style.css` contains CSS rules to customize the appearance of JavaFX components.
 * **Fonts:** Custom fonts like "Le Mano" are included in the resources.
